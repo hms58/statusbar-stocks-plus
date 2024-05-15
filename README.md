@@ -17,7 +17,7 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-在状态栏显示股票信息，在设置->工具->Statusbar Stocks中配置股票列表
+Display stock information in the status bar, configure the list of stocks in Settings->Tools->Statusbar Stocks.
 <!-- Plugin description end -->
 
 ## Installation
