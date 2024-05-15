@@ -24,6 +24,8 @@ repositories {
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
 //    implementation(libs.annotations)
+    implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.10.0")
+    implementation(group = "org.json", name = "json", version = "20240303")
 }
 
 // Set the JVM language level used to build the project.
