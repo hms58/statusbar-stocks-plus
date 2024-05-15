@@ -17,9 +17,10 @@
                 parentId="tools"
                 instance="com.github.xiaohundun.statusbarstocks.PluginSettingsConfigurable"
                 id="com.github.xiaohundun.statusbarstocks.PluginSettingsConfigurable"
-                displayName="Statusbar Stock"/>
+                displayName="Statusbar Stocks"/>
     </extensions>
 
+    <description><![CDATA[在状态栏显示股票信息，在设置->工具->Statusbar Stocks中配置股票列表]]></description>
 <!--    <applicationListeners>-->
 <!--        <listener class="com.github.xiaohundun.statusbarstocks.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>-->
 <!--    </applicationListeners>-->
