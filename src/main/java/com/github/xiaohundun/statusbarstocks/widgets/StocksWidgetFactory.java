@@ -151,9 +151,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         @Override
         protected void paintComponent(Graphics g) {
-            if (!isShowing()) {
-                return;
-            }
+
             @Nls String s           = getText();
             int         panelWidth  = getWidth();
             int         panelHeight = getHeight();
