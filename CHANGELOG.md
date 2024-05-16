@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2024-05-15
+
+### Added
+
+- Indicator Display Configuration
+
 ## [1.0.2] - 2024-05-15
 
 ### Added

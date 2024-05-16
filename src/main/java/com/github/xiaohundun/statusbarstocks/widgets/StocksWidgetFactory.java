@@ -69,7 +69,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
 
     private static final class StockWidget extends TextPanel implements CustomStatusBarWidget, Activatable {
-        private final ArrayList<String[]> codeDetailList = new ArrayList<>();
+        private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
 
@@ -125,6 +125,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             codeDetailList.clear();
 
             String   code     = AppSettingsState.getInstance().stockCode;
+            boolean priceVisible = AppSettingsState.getInstance().priceVisible;
             String[] codeList = code.replaceAll("，", ",").split(",");
             String   text     = "";
             for (String s : codeList) {
@@ -135,14 +136,22 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 JSONObject data       = jsonObject.getJSONObject("data");
                 String     name       = data.getString("f58");
                 Object     f170       = data.get("f170");
+                BigDecimal f43 = data.getBigDecimal("f43");
+                BigDecimal f60 = data.getBigDecimal("f60");
                 if (f170 instanceof BigDecimal) {
                     f170 = f170.toString();
                 }
-                text += String.format("%s: %s %%", name, f170);
+                if (priceVisible) {
+                    text += String.format("%s: %s %s %%", name, f43, f170);
+                }else {
+                    text += String.format("%s: %s %%", name, f170);
+                }
 
-                var valueArray = new String[2];
+                var valueArray = new Object[4];
                 valueArray[0] = name;
-                valueArray[1] = ((String) f170);
+                valueArray[1] = f170;
+                valueArray[2] = f43;
+                valueArray[3] = f60;
                 codeDetailList.add(valueArray);
             }
 
@@ -151,6 +160,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         @Override
         protected void paintComponent(Graphics g) {
+            AppSettingsState appSettingsState = AppSettingsState.getInstance();
 
             @Nls String s           = getText();
             int         panelWidth  = getWidth();
@@ -173,26 +183,40 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             Color foreground;
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
 
-            for (String[] values : codeDetailList) {
+            for (Object[] values : codeDetailList) {
                 var prefix = values[0] + ": ";
                 var changeInPercentage = values[1];
+                var zx = values[2];
+                var zs = values[3];
                 var suffix = "% ";
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
                 x += fm.stringWidth(prefix);
-                if (changeInPercentage.equals("-")) {
-                    changeInPercentage = "0.0";
+
+                if (appSettingsState.priceVisible){
+                    if (((BigDecimal) zx).compareTo(((BigDecimal) zs)) >= 0) {
+                        g2.setColor(JBColor.RED);
+                    }else {
+                        g2.setColor(JBColor.GREEN);
+                    }
+                    g2.drawString(zx +" ", x, y);
+                    x += fm.stringWidth(zx + " ");
                 }
-                int compareTo = BigDecimal.valueOf(Double.parseDouble(changeInPercentage)).compareTo(BigDecimal.ZERO);
-                if (compareTo > 0) {
-                    g2.setColor(JBColor.RED);
-                } else if (compareTo < 0) {
-                    g2.setColor(JBColor.GREEN);
-                } else {
-                    g2.setColor(foreground);
+                if (appSettingsState.changePercentageVisible){
+                    if (changeInPercentage.equals("-")) {
+                        changeInPercentage = "0.0";
+                    }
+                    int compareTo = BigDecimal.valueOf(Double.parseDouble(((String) changeInPercentage))).compareTo(BigDecimal.ZERO);
+                    if (compareTo > 0) {
+                        g2.setColor(JBColor.RED);
+                    } else if (compareTo < 0) {
+                        g2.setColor(JBColor.GREEN);
+                    } else {
+                        g2.setColor(foreground);
+                    }
+                    g2.drawString(changeInPercentage + suffix, x, y);
+                    x += fm.stringWidth(changeInPercentage + suffix);
                 }
-                g2.drawString(changeInPercentage + suffix, x, y);
-                x += fm.stringWidth(changeInPercentage + suffix);
             }
         }
     }

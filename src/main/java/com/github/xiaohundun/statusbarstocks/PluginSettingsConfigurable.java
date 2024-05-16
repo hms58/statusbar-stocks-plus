@@ -35,13 +35,17 @@ public class PluginSettingsConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         AppSettingsState settings = AppSettingsState.getInstance();
-        return !pluginSettingsComponent.getStockCode().equals(settings.stockCode);
+        return !pluginSettingsComponent.getStockCode().equals(settings.stockCode)
+                || !pluginSettingsComponent.getPriceVisible() == settings.priceVisible
+                || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible;
     }
 
     @Override
     public void apply(){
         AppSettingsState settings = AppSettingsState.getInstance();
         settings.stockCode = pluginSettingsComponent.getStockCode();
+        settings.priceVisible = pluginSettingsComponent.getPriceVisible();
+        settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
             if (statusBar != null) {
