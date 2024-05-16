@@ -2,28 +2,40 @@ package com.github.xiaohundun.statusbarstocks.widgets;
 
 import com.github.xiaohundun.statusbarstocks.AppSettingsState;
 import com.github.xiaohundun.statusbarstocks.EastmoneyService;
+import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.NlsContexts;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.StatusBarWidgetFactory;
 import com.intellij.openapi.wm.impl.status.TextPanel;
+import com.intellij.ui.ExperimentalUI;
+import com.intellij.ui.JBColor;
 import com.intellij.util.concurrency.EdtExecutorService;
+import com.intellij.util.ui.JBUI;
+import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.update.Activatable;
 import com.intellij.util.ui.update.UiNotifyConnector;
+import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class StocksWidgetFactory implements StatusBarWidgetFactory {
     public static final String ID = "StocksStatusBar";
+    private static final ExecutorService pool = Executors.newFixedThreadPool(1);
 
     @Override
     public @NotNull @NonNls String getId() {
@@ -56,9 +68,14 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
     }
 
 
-
     private static final class StockWidget extends TextPanel implements CustomStatusBarWidget, Activatable {
+        private final ArrayList<String[]> codeDetailList = new ArrayList<>();
+        private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
+
+        public StockWidget() {
+            new UiNotifyConnector(this, this);
+        }
 
         @Override
         public void showNotify() {
@@ -73,11 +90,6 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 myFuture.cancel(true);
                 myFuture = null;
             }
-        }
-
-        public StockWidget() {
-            setText(getCodeText());
-            new UiNotifyConnector(this, this);
         }
 
         @Override
@@ -98,31 +110,92 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         public void dispose() {
         }
 
-        public void updateState(){
-            LocalTime now = LocalTime.now();
-            LocalTime nine = LocalTime.of(9, 0);
+        public void updateState() {
+            LocalTime now   = LocalTime.now();
+            LocalTime nine  = LocalTime.of(9, 0);
             LocalTime three = LocalTime.of(15, 0);
-            if (now.isAfter(nine) && now.isBefore(three)) {
-                setText(getCodeText());
+            if ((now.isAfter(nine) && now.isBefore(three)) | !init) {
+                // trigger repaint
+                pool.execute(() -> setText(getCodeText()));
+                init = true;
             }
         }
 
-        public String getCodeText(){
-            String code = AppSettingsState.getInstance().stockCode;
+        public String getCodeText() {
+            codeDetailList.clear();
+
+            String   code     = AppSettingsState.getInstance().stockCode;
             String[] codeList = code.replaceAll("，", ",").split(",");
-            String text = "";
+            String   text     = "";
             for (String s : codeList) {
                 JSONObject jsonObject = EastmoneyService.getDetail(s);
-                JSONObject data = jsonObject.getJSONObject("data");
-                String     name = data.getString("f58");
-                Object f170 = data.get("f170");
+                if (jsonObject == null) {
+                    continue;
+                }
+                JSONObject data       = jsonObject.getJSONObject("data");
+                String     name       = data.getString("f58");
+                Object     f170       = data.get("f170");
                 if (f170 instanceof BigDecimal) {
                     f170 = f170.toString();
                 }
-                text += String.format("%s: %s %% ", name, f170);
+                text += String.format("%s: %s %%", name, f170);
+
+                var valueArray = new String[2];
+                valueArray[0] = name;
+                valueArray[1] = ((String) f170);
+                codeDetailList.add(valueArray);
             }
 
             return text;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (!isShowing()) {
+                return;
+            }
+            @Nls String s           = getText();
+            int         panelWidth  = getWidth();
+            int         panelHeight = getHeight();
+            if (s == null) return;
+
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setFont(getFont());
+            UISettings.setupAntialiasing(g);
+
+            Rectangle   bounds    = new Rectangle(panelWidth, panelHeight);
+            FontMetrics fm        = g.getFontMetrics();
+            int         x         = getInsets().left;
+
+            int y = UIUtil.getStringY(s, bounds, g2);
+            if (ExperimentalUI.isNewUI() && SystemInfo.isJetBrainsJvm) {
+                y += fm.getLeading(); // See SimpleColoredComponent.getTextBaseline
+            }
+
+            Color foreground;
+            foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
+
+            for (String[] values : codeDetailList) {
+                var prefix = values[0] + ": ";
+                var changeInPercentage = values[1];
+                var suffix = "% ";
+                g2.setColor(foreground);
+                g2.drawString(prefix, x, y);
+                x += fm.stringWidth(prefix);
+                if (changeInPercentage.equals("-")) {
+                    changeInPercentage = "0.0";
+                }
+                int compareTo = BigDecimal.valueOf(Double.parseDouble(changeInPercentage)).compareTo(BigDecimal.ZERO);
+                if (compareTo > 0) {
+                    g2.setColor(JBColor.RED);
+                } else if (compareTo < 0) {
+                    g2.setColor(JBColor.GREEN);
+                } else {
+                    g2.setColor(foreground);
+                }
+                g2.drawString(changeInPercentage + suffix, x, y);
+                x += fm.stringWidth(changeInPercentage + suffix);
+            }
         }
     }
 }

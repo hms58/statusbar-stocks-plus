@@ -4,9 +4,19 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-05-15
+
+### Added
+
+- Statusbar Text Color
+
+### fixed
+
+- UI Frozen
+
 ## [1.0.1] - 2024-05-15
 
-### changed
+### Changed
 
 - Change description
 
