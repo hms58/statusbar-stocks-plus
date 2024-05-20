@@ -176,9 +176,6 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             int         x      = getInsets().left;
 
             int y = UIUtil.getStringY(s, bounds, g2);
-            if (ExperimentalUI.isNewUI() && SystemInfo.isJetBrainsJvm) {
-                y += fm.getLeading(); // See SimpleColoredComponent.getTextBaseline
-            }
 
             Color foreground;
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
