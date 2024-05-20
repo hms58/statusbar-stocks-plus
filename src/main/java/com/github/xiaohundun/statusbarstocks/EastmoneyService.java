@@ -1,6 +1,8 @@
 package com.github.xiaohundun.statusbarstocks;
 
-import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.util.Date;
 
 public class EastmoneyService {
 
-    public static JSONObject getDetail(String code){
+    public static JSONObject getDetail(String code) {
         String marketType = "1";
         if (!code.startsWith("6")) {
             marketType = "4";
@@ -20,7 +22,7 @@ public class EastmoneyService {
                 .url(url)
                 .method("GET", null)
                 .build();
-        try(Response response = client.newCall(request).execute()) {
+        try (Response response = client.newCall(request).execute()) {
             if (response.body() != null) {
                 return new JSONObject(response.body().string());
             }

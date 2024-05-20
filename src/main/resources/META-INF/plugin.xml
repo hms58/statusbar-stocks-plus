@@ -9,8 +9,9 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-<!--        <toolWindow factoryClass="com.github.xiaohundun.statusbarstocks.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>-->
-        <statusBarWidgetFactory implementation="com.github.xiaohundun.statusbarstocks.widgets.StocksWidgetFactory" id="StocksStatusBar"/>
+        <!--        <toolWindow factoryClass="com.github.xiaohundun.statusbarstocks.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>-->
+        <statusBarWidgetFactory implementation="com.github.xiaohundun.statusbarstocks.widgets.StocksWidgetFactory"
+                                id="StocksStatusBar"/>
         <applicationService
                 serviceImplementation="com.github.xiaohundun.statusbarstocks.AppSettingsState"/>
         <applicationConfigurable
@@ -21,7 +22,7 @@
     </extensions>
 
     <description><![CDATA[在状态栏显示股票信息，在设置->工具->Statusbar Stocks中配置股票列表]]></description>
-<!--    <applicationListeners>-->
-<!--        <listener class="com.github.xiaohundun.statusbarstocks.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>-->
-<!--    </applicationListeners>-->
+    <!--    <applicationListeners>-->
+    <!--        <listener class="com.github.xiaohundun.statusbarstocks.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>-->
+    <!--    </applicationListeners>-->
 </idea-plugin>

@@ -13,27 +13,27 @@ import org.jetbrains.annotations.NotNull;
  * these persistent application settings are stored.
  */
 @State(
-    name = "org.intellij.sdk.settings.AppSettingsState",
-    storages = @Storage("StatusbarStockStorage.xml")
+        name = "org.intellij.sdk.settings.AppSettingsState",
+        storages = @Storage("StatusbarStockStorage.xml")
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-  public String stockCode = "601919";
-  public boolean changePercentageVisible = true;
-  public boolean priceVisible = true;
+    public String stockCode = "601919";
+    public boolean changePercentageVisible = true;
+    public boolean priceVisible = true;
 
-  public static AppSettingsState getInstance() {
-    return ApplicationManager.getApplication().getService(AppSettingsState.class);
-  }
+    public static AppSettingsState getInstance() {
+        return ApplicationManager.getApplication().getService(AppSettingsState.class);
+    }
 
-  @Override
-  public AppSettingsState getState() {
-    return this;
-  }
+    @Override
+    public AppSettingsState getState() {
+        return this;
+    }
 
-  @Override
-  public void loadState(@NotNull AppSettingsState state) {
-    XmlSerializerUtil.copyBean(state, this);
-  }
+    @Override
+    public void loadState(@NotNull AppSettingsState state) {
+        XmlSerializerUtil.copyBean(state, this);
+    }
 
 }

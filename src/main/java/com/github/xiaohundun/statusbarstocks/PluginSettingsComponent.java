@@ -20,8 +20,8 @@ public class PluginSettingsComponent {
         changePercentageVisible.setSelected(AppSettingsState.getInstance().changePercentageVisible);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
-                .addComponent(priceVisible,1)
-                .addComponent(changePercentageVisible,1)
+                .addComponent(priceVisible, 1)
+                .addComponent(changePercentageVisible, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -42,7 +42,7 @@ public class PluginSettingsComponent {
         return priceVisible.isSelected();
     }
 
-    public void setPriceVisible(boolean visible){
+    public void setPriceVisible(boolean visible) {
         priceVisible.setSelected(visible);
     }
 
@@ -50,7 +50,7 @@ public class PluginSettingsComponent {
         return changePercentageVisible.isSelected();
     }
 
-    public void setChangePercentageVisible(boolean visible){
+    public void setChangePercentageVisible(boolean visible) {
         changePercentageVisible.setSelected(visible);
     }
 }

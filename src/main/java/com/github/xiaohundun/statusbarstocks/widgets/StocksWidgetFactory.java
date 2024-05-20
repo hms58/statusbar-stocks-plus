@@ -124,26 +124,26 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         public String getCodeText() {
             codeDetailList.clear();
 
-            String   code     = AppSettingsState.getInstance().stockCode;
-            boolean priceVisible = AppSettingsState.getInstance().priceVisible;
-            String[] codeList = code.replaceAll("，", ",").split(",");
-            String   text     = "";
+            String   code         = AppSettingsState.getInstance().stockCode;
+            boolean  priceVisible = AppSettingsState.getInstance().priceVisible;
+            String[] codeList     = code.replaceAll("，", ",").split(",");
+            String   text         = "";
             for (String s : codeList) {
                 JSONObject jsonObject = EastmoneyService.getDetail(s);
                 if (jsonObject == null) {
                     continue;
                 }
-                JSONObject data       = jsonObject.getJSONObject("data");
-                String     name       = data.getString("f58");
-                Object     f170       = data.get("f170");
-                BigDecimal f43 = data.getBigDecimal("f43");
-                BigDecimal f60 = data.getBigDecimal("f60");
+                JSONObject data = jsonObject.getJSONObject("data");
+                String     name = data.getString("f58");
+                Object     f170 = data.get("f170");
+                BigDecimal f43  = data.getBigDecimal("f43");
+                BigDecimal f60  = data.getBigDecimal("f60");
                 if (f170 instanceof BigDecimal) {
                     f170 = f170.toString();
                 }
                 if (priceVisible) {
                     text += String.format("%s: %s %s %%", name, f43, f170);
-                }else {
+                } else {
                     text += String.format("%s: %s %%", name, f170);
                 }
 
@@ -171,9 +171,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             g2.setFont(getFont());
             UISettings.setupAntialiasing(g);
 
-            Rectangle   bounds    = new Rectangle(panelWidth, panelHeight);
-            FontMetrics fm        = g.getFontMetrics();
-            int         x         = getInsets().left;
+            Rectangle   bounds = new Rectangle(panelWidth, panelHeight);
+            FontMetrics fm     = g.getFontMetrics();
+            int         x      = getInsets().left;
 
             int y = UIUtil.getStringY(s, bounds, g2);
             if (ExperimentalUI.isNewUI() && SystemInfo.isJetBrainsJvm) {
@@ -184,25 +184,25 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
 
             for (Object[] values : codeDetailList) {
-                var prefix = values[0] + ": ";
+                var prefix             = values[0] + ": ";
                 var changeInPercentage = values[1];
-                var zx = values[2];
-                var zs = values[3];
-                var suffix = "% ";
+                var zx                 = values[2];
+                var zs                 = values[3];
+                var suffix             = "% ";
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
                 x += fm.stringWidth(prefix);
 
-                if (appSettingsState.priceVisible){
+                if (appSettingsState.priceVisible) {
                     if (((BigDecimal) zx).compareTo(((BigDecimal) zs)) >= 0) {
                         g2.setColor(JBColor.RED);
-                    }else {
+                    } else {
                         g2.setColor(JBColor.GREEN);
                     }
-                    g2.drawString(zx +" ", x, y);
+                    g2.drawString(zx + " ", x, y);
                     x += fm.stringWidth(zx + " ");
                 }
-                if (appSettingsState.changePercentageVisible){
+                if (appSettingsState.changePercentageVisible) {
                     if (changeInPercentage.equals("-")) {
                         changeInPercentage = "0.0";
                     }
