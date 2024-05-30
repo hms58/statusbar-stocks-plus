@@ -6,13 +6,11 @@ import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.NlsContexts;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.StatusBarWidgetFactory;
 import com.intellij.openapi.wm.impl.status.TextPanel;
-import com.intellij.ui.ExperimentalUI;
 import com.intellij.ui.JBColor;
 import com.intellij.util.concurrency.EdtExecutorService;
 import com.intellij.util.ui.JBUI;
@@ -142,9 +140,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     f170 = f170.toString();
                 }
                 if (priceVisible) {
-                    text += String.format("%s: %s %s %%", name, f43, f170);
+                    text += String.format("%s: %s %s %% ", name, f43, f170);
                 } else {
-                    text += String.format("%s: %s %%", name, f170);
+                    text += String.format("%s: %s %% ", name, f170);
                 }
 
                 var valueArray = new Object[4];
@@ -162,6 +160,10 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         protected void paintComponent(Graphics g) {
             AppSettingsState appSettingsState = AppSettingsState.getInstance();
 
+            if (appSettingsState.lowProfileMode) {
+                super.paintComponent(g);
+                return;
+            }
             @Nls String s           = getText();
             int         panelWidth  = getWidth();
             int         panelHeight = getHeight();

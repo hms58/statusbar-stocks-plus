@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2024-05-30
+
+### Added
+- low profile mode
+
 ## [1.0.3] - 2024-05-15
 
 ### Added

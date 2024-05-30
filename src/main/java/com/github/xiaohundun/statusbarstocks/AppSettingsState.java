@@ -21,6 +21,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public String stockCode = "601919";
     public boolean changePercentageVisible = true;
     public boolean priceVisible = true;
+    public boolean lowProfileMode = false;
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

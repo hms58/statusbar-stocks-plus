@@ -36,7 +36,8 @@ public class PluginSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         return !pluginSettingsComponent.getStockCode().equals(settings.stockCode)
                 || !pluginSettingsComponent.getPriceVisible() == settings.priceVisible
-                || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible;
+                || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible
+                || !pluginSettingsComponent.getLowProfileMode() == settings.lowProfileMode;
     }
 
     @Override
@@ -45,6 +46,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.stockCode               = pluginSettingsComponent.getStockCode();
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
+        settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
             if (statusBar != null) {
