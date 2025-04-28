@@ -71,7 +71,6 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
     private static final class StockWidget extends TextPanel implements CustomStatusBarWidget, Activatable {
         private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
-        private boolean useTencent = true; // 使用腾讯接口
         private java.util.concurrent.ScheduledFuture<?> myFuture;
 
         public StockWidget() {
@@ -129,10 +128,12 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             boolean  priceVisible = AppSettingsState.getInstance().priceVisible;
             boolean  nameVisible = AppSettingsState.getInstance().nameVisible;
             boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
+            boolean  percentVisible = AppSettingsState.getInstance().percentVisible;
             String[] codeList     = code.replaceAll("，", ",").split(",");
             String   text         = "";
 
             // 使用腾讯接口
+            boolean useTencent = true;
             if (useTencent) {
                 List<JSONObject> list =  TencentService.getDetail(codeList);
                 if (list != null) {
@@ -159,9 +160,15 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         text += prefix;
 
                         if (priceVisible) {
-                            text += String.format("%s %s%% ", price, percent);
+                            text += String.format("%s %s", price, percent);
                         } else {
-                            text += String.format("%s%% ", percent);
+                            text += String.format("%s", percent);
+                        }
+
+                        if (percentVisible) {
+                            text += "% ";
+                        } else {
+                            text += " ";
                         }
 
                         var valueArray = new Object[4];
@@ -201,9 +208,15 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 text += prefix;
 
                 if (priceVisible) {
-                    text += String.format("%s %s%% ", f43, f170);
+                    text += String.format("%s %s", f43, f170);
                 } else {
-                    text += String.format("%s%% ", f170);
+                    text += String.format("%s", f170);
+                }
+
+                if (percentVisible) {
+                    text += "% ";
+                } else {
+                    text += " ";
                 }
 
                 var valueArray = new Object[4];
@@ -242,13 +255,17 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
             Color foreground;
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
+            var suffix             = " ";
+            if (appSettingsState.percentVisible) {
+                suffix = "% ";
+            }
 
             for (Object[] values : codeDetailList) {
                 var prefix             = values[0].toString();
                 var changeInPercentage = values[1];
                 var zx                 = values[2];
                 var zs                 = values[3];
-                var suffix             = "% ";
+
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
 

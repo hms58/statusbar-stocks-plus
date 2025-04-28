@@ -15,6 +15,7 @@ public class PluginSettingsComponent {
     private final JBCheckBox priceVisible = new JBCheckBox("show price");
     private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
     private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
+    private final JBCheckBox percentVisible = new JBCheckBox("show %");
 
 
     public PluginSettingsComponent() {
@@ -24,6 +25,7 @@ public class PluginSettingsComponent {
         lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
         nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
         codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
+        percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
                 .addComponent(nameVisible, 1)
@@ -31,6 +33,7 @@ public class PluginSettingsComponent {
                 .addComponent(priceVisible, 1)
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
+                .addComponent(percentVisible, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -65,5 +68,8 @@ public class PluginSettingsComponent {
 
     public boolean getCodeVisible() {
         return codeVisible.isSelected();
+    }
+    public boolean getPercentVisible() {
+        return percentVisible.isSelected();
     }
 }

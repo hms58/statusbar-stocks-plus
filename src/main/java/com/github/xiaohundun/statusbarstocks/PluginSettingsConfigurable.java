@@ -39,6 +39,7 @@ public class PluginSettingsConfigurable implements Configurable {
                 || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
+                || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
                 || !pluginSettingsComponent.getLowProfileMode() == settings.lowProfileMode;
     }
 
@@ -51,6 +52,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();
+        settings.percentVisible          = pluginSettingsComponent.getPercentVisible();
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
             if (statusBar != null) {
