@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-04-28
+- add hk us stock
+- add tencent api
+
 ## [1.0.4] - 2024-05-30
 
 ### Added

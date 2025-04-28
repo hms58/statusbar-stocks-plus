@@ -10,9 +10,11 @@ import javax.swing.*;
 public class PluginSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField stockCode = new JBTextField();
-    private final JBCheckBox priceVisible = new JBCheckBox("显示价格");
-    private final JBCheckBox changePercentageVisible = new JBCheckBox("显示涨跌幅");
-    private final JBCheckBox lowProfileMode = new JBCheckBox("低调模式");
+    private final JBCheckBox nameVisible = new JBCheckBox("show name");
+    private final JBCheckBox codeVisible = new JBCheckBox("show code");
+    private final JBCheckBox priceVisible = new JBCheckBox("show price");
+    private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
+    private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
 
 
     public PluginSettingsComponent() {
@@ -20,8 +22,12 @@ public class PluginSettingsComponent {
         priceVisible.setSelected(AppSettingsState.getInstance().priceVisible);
         changePercentageVisible.setSelected(AppSettingsState.getInstance().changePercentageVisible);
         lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
+        nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
+        codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
+                .addComponent(nameVisible, 1)
+                .addComponent(codeVisible, 1)
                 .addComponent(priceVisible, 1)
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
@@ -51,5 +57,13 @@ public class PluginSettingsComponent {
 
     public boolean getChangePercentageVisible() {
         return changePercentageVisible.isSelected();
+    }
+
+    public boolean getNameVisible() {
+        return nameVisible.isSelected();
+    }
+
+    public boolean getCodeVisible() {
+        return codeVisible.isSelected();
     }
 }
