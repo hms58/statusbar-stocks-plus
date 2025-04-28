@@ -18,10 +18,12 @@ import org.jetbrains.annotations.NotNull;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public String stockCode = "601919";
+    public String stockCode = "sh000001";
     public boolean changePercentageVisible = true;
     public boolean priceVisible = true;
     public boolean lowProfileMode = false;
+    public boolean nameVisible = true;
+    public boolean codeVisible = false;
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

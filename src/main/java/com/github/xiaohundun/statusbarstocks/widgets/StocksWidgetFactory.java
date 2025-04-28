@@ -2,6 +2,7 @@ package com.github.xiaohundun.statusbarstocks.widgets;
 
 import com.github.xiaohundun.statusbarstocks.AppSettingsState;
 import com.github.xiaohundun.statusbarstocks.EastmoneyService;
+import com.github.xiaohundun.statusbarstocks.TencentService;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
@@ -27,6 +28,7 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -69,6 +71,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
     private static final class StockWidget extends TextPanel implements CustomStatusBarWidget, Activatable {
         private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
+        private boolean useTencent = true; // 使用腾讯接口
         private java.util.concurrent.ScheduledFuture<?> myFuture;
 
         public StockWidget() {
@@ -111,7 +114,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         public void updateState() {
             LocalTime now   = LocalTime.now();
             LocalTime nine  = LocalTime.of(9, 0);
-            LocalTime three = LocalTime.of(15, 0);
+            LocalTime three = LocalTime.of(16, 0);
             if ((now.isAfter(nine) && now.isBefore(three)) | !init) {
                 // trigger repaint
                 pool.execute(() -> setText(getCodeText()));
@@ -124,8 +127,53 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
             String   code         = AppSettingsState.getInstance().stockCode;
             boolean  priceVisible = AppSettingsState.getInstance().priceVisible;
+            boolean  nameVisible = AppSettingsState.getInstance().nameVisible;
+            boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
             String[] codeList     = code.replaceAll("，", ",").split(",");
             String   text         = "";
+
+            // 使用腾讯接口
+            if (useTencent) {
+                List<JSONObject> list =  TencentService.getDetail(codeList);
+                if (list != null) {
+                    for (JSONObject jsonObject : list) {
+                        if (jsonObject == null) {
+                            continue;
+                        }
+                        String prefix = "";
+                        String name   = jsonObject.getString("name");
+                        String retCode   = jsonObject.getString("code");
+                        String percent   = jsonObject.getString("percent");
+                        String price     = jsonObject.getString("price");
+                        String yesterday = jsonObject.getString("yesterday");
+
+                        if (nameVisible) {
+                            prefix = String.format("%s: ", name);
+                        } else if (codeVisible) {
+                            if (retCode.length()>3) {
+                                prefix = String.format("%s: ", retCode.substring(retCode.length()-3));
+                            } else {
+                                prefix = String.format("%s: ", retCode);
+                            }
+                        }
+                        text += prefix;
+
+                        if (priceVisible) {
+                            text += String.format("%s %s%% ", price, percent);
+                        } else {
+                            text += String.format("%s%% ", percent);
+                        }
+
+                        var valueArray = new Object[4];
+                        valueArray[0] = prefix;
+                        valueArray[1] = percent;
+                        valueArray[2] = price;
+                        valueArray[3] = yesterday; // fixme: 昨天收盘价
+                        codeDetailList.add(valueArray);
+                    }
+                }
+                return text;
+            }
             for (String s : codeList) {
                 JSONObject jsonObject = EastmoneyService.getDetail(s);
                 if (jsonObject == null) {
@@ -136,17 +184,30 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 Object     f170 = data.get("f170");
                 BigDecimal f43  = data.getBigDecimal("f43");
                 BigDecimal f60  = data.getBigDecimal("f60");
+                String retCode  = data.getString("f57");
+                String   prefix = "";
                 if (f170 instanceof BigDecimal) {
                     f170 = f170.toString();
                 }
+                if (nameVisible) {
+                    prefix = String.format("%s: ", name);
+                } else if (codeVisible) {
+                    if (retCode.length()>3) {
+                        prefix = String.format("%s: ", retCode.substring(retCode.length()-3));
+                    } else {
+                        prefix = String.format("%s: ", retCode);
+                    }
+                }
+                text += prefix;
+
                 if (priceVisible) {
-                    text += String.format("%s: %s %s %% ", name, f43, f170);
+                    text += String.format("%s %s%% ", f43, f170);
                 } else {
-                    text += String.format("%s: %s %% ", name, f170);
+                    text += String.format("%s%% ", f170);
                 }
 
                 var valueArray = new Object[4];
-                valueArray[0] = name;
+                valueArray[0] = prefix;
                 valueArray[1] = f170;
                 valueArray[2] = f43;
                 valueArray[3] = f60;
@@ -183,13 +244,14 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
 
             for (Object[] values : codeDetailList) {
-                var prefix             = values[0] + ": ";
+                var prefix             = values[0].toString();
                 var changeInPercentage = values[1];
                 var zx                 = values[2];
                 var zs                 = values[3];
                 var suffix             = "% ";
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
+
                 x += fm.stringWidth(prefix);
 
                 if (appSettingsState.priceVisible) {
