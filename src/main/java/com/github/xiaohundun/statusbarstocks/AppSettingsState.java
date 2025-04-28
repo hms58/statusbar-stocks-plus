@@ -24,6 +24,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public boolean lowProfileMode = false;
     public boolean nameVisible = true;
     public boolean codeVisible = false;
+    public boolean percentVisible = true; // 显示百分比符号
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);
