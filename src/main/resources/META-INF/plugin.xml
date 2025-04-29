@@ -1,8 +1,8 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.xiaohundun.statusbarstocks</id>
-    <name>statusbar-stocks</name>
-    <vendor>xiaohundun</vendor>
+    <id>com.github.hms58.statusbarstocksplus</id>
+    <name>statusbar-stocks-plus</name>
+    <vendor>simon</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
@@ -11,17 +11,17 @@
     <extensions defaultExtensionNs="com.intellij">
         <!--        <toolWindow factoryClass="com.github.xiaohundun.statusbarstocks.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>-->
         <statusBarWidgetFactory implementation="com.github.xiaohundun.statusbarstocks.widgets.StocksWidgetFactory"
-                                id="StocksStatusBar"/>
+                                id="StocksPlusStatusBar"/>
         <applicationService
                 serviceImplementation="com.github.xiaohundun.statusbarstocks.AppSettingsState"/>
         <applicationConfigurable
                 parentId="tools"
                 instance="com.github.xiaohundun.statusbarstocks.PluginSettingsConfigurable"
                 id="com.github.xiaohundun.statusbarstocks.PluginSettingsConfigurable"
-                displayName="Statusbar Stocks"/>
+                displayName="Statusbar Stocks Plus"/>
     </extensions>
 
-    <description><![CDATA[在状态栏显示股票信息，在设置->工具->Statusbar Stocks中配置股票列表]]></description>
+    <description><![CDATA[在状态栏显示股票信息，在设置->工具->Statusbar Stocks Plus中配置股票列表]]></description>
     <!--    <applicationListeners>-->
     <!--        <listener class="com.github.xiaohundun.statusbarstocks.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>-->
     <!--    </applicationListeners>-->

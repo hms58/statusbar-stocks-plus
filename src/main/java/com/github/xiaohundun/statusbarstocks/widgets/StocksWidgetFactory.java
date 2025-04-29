@@ -34,7 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class StocksWidgetFactory implements StatusBarWidgetFactory {
-    public static final String ID = "StocksStatusBar";
+    public static final String ID = "StocksPlusStatusBar";
     private static final ExecutorService pool = Executors.newFixedThreadPool(1);
 
     @Override
@@ -44,7 +44,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
     @Override
     public @NotNull @NlsContexts.ConfigurableName String getDisplayName() {
-        return "Statusbar Stocks";
+        return "Statusbar Stocks Plus";
     }
 
     @Override
