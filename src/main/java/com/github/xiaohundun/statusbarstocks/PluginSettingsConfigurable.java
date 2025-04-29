@@ -17,7 +17,7 @@ public class PluginSettingsConfigurable implements Configurable {
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {
-        return "Statusbar Stock";
+        return "Statusbar Stock Plus";
     }
 
     @Override

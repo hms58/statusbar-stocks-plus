@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  */
 @State(
         name = "org.intellij.sdk.settings.AppSettingsState",
-        storages = @Storage("StatusbarStockStorage.xml")
+        storages = @Storage("StatusbarStockPlusStorage.xml")
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
