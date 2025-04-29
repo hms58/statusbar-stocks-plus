@@ -2,8 +2,9 @@
 .PHONY: build ide
 
 build:
-	./gradlew  buildPlugin
+	gradlew -g D:/ProgramData/.gradle buildPlugin
+
 
 
 ide:
-	./gradlew runIde
+	gradlew -g D:/ProgramData/.gradle runIde

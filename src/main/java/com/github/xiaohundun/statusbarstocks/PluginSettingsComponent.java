@@ -1,5 +1,6 @@
 package com.github.xiaohundun.statusbarstocks;
 
+import com.intellij.ui.JBIntSpinner;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
@@ -16,10 +17,12 @@ public class PluginSettingsComponent {
     private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
     private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
     private final JBCheckBox percentVisible = new JBCheckBox("show %");
-
+    //    private final JBTextField refreshInterval = new JBTextField();
+    private final JBIntSpinner refreshInterval = new JBIntSpinner(5, 1, 3600);
 
     public PluginSettingsComponent() {
         stockCode.setText(AppSettingsState.getInstance().stockCode);
+        refreshInterval.setNumber(AppSettingsState.getInstance().refreshInterval);
         priceVisible.setSelected(AppSettingsState.getInstance().priceVisible);
         changePercentageVisible.setSelected(AppSettingsState.getInstance().changePercentageVisible);
         lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
@@ -28,6 +31,7 @@ public class PluginSettingsComponent {
         percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
+                .addLabeledComponent(new JBLabel("Refresh interval(seconds): "), refreshInterval, 1, false)
                 .addComponent(nameVisible, 1)
                 .addComponent(codeVisible, 1)
                 .addComponent(priceVisible, 1)
@@ -71,5 +75,9 @@ public class PluginSettingsComponent {
     }
     public boolean getPercentVisible() {
         return percentVisible.isSelected();
+    }
+
+    public int getRefreshInterval() {
+        return refreshInterval.getNumber();
     }
 }

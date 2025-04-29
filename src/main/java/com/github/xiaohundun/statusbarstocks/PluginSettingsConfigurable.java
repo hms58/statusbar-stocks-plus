@@ -40,6 +40,7 @@ public class PluginSettingsConfigurable implements Configurable {
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
                 || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
+                || !(pluginSettingsComponent.getRefreshInterval() == settings.refreshInterval)
                 || !pluginSettingsComponent.getLowProfileMode() == settings.lowProfileMode;
     }
 
@@ -47,6 +48,7 @@ public class PluginSettingsConfigurable implements Configurable {
     public void apply() {
         AppSettingsState settings = AppSettingsState.getInstance();
         settings.stockCode               = pluginSettingsComponent.getStockCode();
+        settings.refreshInterval         = pluginSettingsComponent.getRefreshInterval();
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
