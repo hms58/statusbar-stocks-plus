@@ -79,8 +79,12 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         @Override
         public void showNotify() {
+            long refreshInterval = AppSettingsState.getInstance().refreshInterval;
+            if (refreshInterval <= 0){
+                refreshInterval = 5;
+            }
             myFuture = EdtExecutorService.getScheduledExecutorInstance().scheduleWithFixedDelay(
-                    this::updateState, 5, 5, TimeUnit.SECONDS
+                    this::updateState, refreshInterval, refreshInterval, TimeUnit.SECONDS
             );
         }
 
@@ -174,8 +178,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         var valueArray = new Object[4];
                         valueArray[0] = prefix;
                         valueArray[1] = percent;
-                        valueArray[2] = price;
-                        valueArray[3] = yesterday; // fixme: 昨天收盘价
+                        valueArray[2] = new BigDecimal(price);  // 字符串需符合数值格式
+                        valueArray[3] = new BigDecimal(yesterday); // 昨天收盘价
                         codeDetailList.add(valueArray);
                     }
                 }
@@ -189,8 +193,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 JSONObject data = jsonObject.getJSONObject("data");
                 String     name = data.getString("f58");
                 Object     f170 = data.get("f170");
-                BigDecimal f43  = data.getBigDecimal("f43");
-                BigDecimal f60  = data.getBigDecimal("f60");
+                BigDecimal f43  = data.getBigDecimal("f43"); // 当前最新价
+                BigDecimal f60  = data.getBigDecimal("f60"); // 昨天收盘价
                 String retCode  = data.getString("f57");
                 String   prefix = "";
                 if (f170 instanceof BigDecimal) {
