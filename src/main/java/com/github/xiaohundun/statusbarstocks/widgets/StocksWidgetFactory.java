@@ -267,8 +267,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             for (Object[] values : codeDetailList) {
                 var prefix             = values[0].toString();
                 var changeInPercentage = values[1];
-                var zx                 = values[2];
-                var zs                 = values[3];
+                var zx                 = values[2]; // 最新价格
+                var zs                 = values[3]; // 昨天收盘价
 
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
@@ -276,10 +276,18 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 x += fm.stringWidth(prefix);
 
                 if (appSettingsState.priceVisible) {
-                    if (((BigDecimal) zx).compareTo(((BigDecimal) zs)) >= 0) {
-                        g2.setColor(JBColor.RED);
+                    // 若涨跌幅突出展示了，则价格不突出展示
+                    if (appSettingsState.changePercentageVisible) {
+                        g2.setColor(foreground);
                     } else {
-                        g2.setColor(JBColor.GREEN);
+                        int compareTo =((BigDecimal) zx).compareTo(((BigDecimal) zs));
+                        if (compareTo > 0) {
+                            g2.setColor(JBColor.RED);
+                        } else if (compareTo < 0){
+                            g2.setColor(JBColor.GREEN);
+                        } else {
+                            g2.setColor(foreground);
+                        }
                     }
                     g2.drawString(zx + " ", x, y);
                     x += fm.stringWidth(zx + " ");
