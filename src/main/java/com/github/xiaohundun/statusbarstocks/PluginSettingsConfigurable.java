@@ -41,6 +41,7 @@ public class PluginSettingsConfigurable implements Configurable {
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
                 || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
                 || !(pluginSettingsComponent.getRefreshInterval() == settings.refreshInterval)
+                || !pluginSettingsComponent.getMarketCloseVisible() == settings.marketCloseVisible
                 || !pluginSettingsComponent.getLowProfileMode() == settings.lowProfileMode;
     }
 
@@ -55,6 +56,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();
         settings.percentVisible          = pluginSettingsComponent.getPercentVisible();
+        settings.marketCloseVisible      = pluginSettingsComponent.getMarketCloseVisible();
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
             if (statusBar != null) {

@@ -19,6 +19,7 @@ public class PluginSettingsComponent {
     private final JBCheckBox percentVisible = new JBCheckBox("show %");
     //    private final JBTextField refreshInterval = new JBTextField();
     private final JBIntSpinner refreshInterval = new JBIntSpinner(5, 1, 3600);
+    private final JBCheckBox marketCloseVisible = new JBCheckBox("market close visible");
 
     public PluginSettingsComponent() {
         stockCode.setText(AppSettingsState.getInstance().stockCode);
@@ -29,6 +30,7 @@ public class PluginSettingsComponent {
         nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
         codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
         percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
+        marketCloseVisible.setSelected(AppSettingsState.getInstance().marketCloseVisible);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
                 .addLabeledComponent(new JBLabel("Refresh interval(seconds): "), refreshInterval, 1, false)
@@ -38,6 +40,7 @@ public class PluginSettingsComponent {
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
                 .addComponent(percentVisible, 1)
+                .addComponent(marketCloseVisible, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -75,6 +78,9 @@ public class PluginSettingsComponent {
     }
     public boolean getPercentVisible() {
         return percentVisible.isSelected();
+    }
+    public boolean getMarketCloseVisible() {
+        return marketCloseVisible.isSelected();
     }
 
     public int getRefreshInterval() {

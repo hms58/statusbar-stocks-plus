@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,12 +118,28 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         public void updateState() {
             LocalTime now   = LocalTime.now();
+            DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
+
+            // 判断是否为工作日（周一到周五）
+            boolean isWeekday = dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
+
             LocalTime nine  = LocalTime.of(9, 0);
-            LocalTime three = LocalTime.of(16, 0);
-            if ((now.isAfter(nine) && now.isBefore(three)) | !init) {
+            LocalTime three = LocalTime.of(16, 30);
+            // 是否为交易时间
+            boolean isTradeTime = isWeekday && now.isAfter(nine) && now.isBefore(three);
+
+            boolean marketCloseVisible = AppSettingsState.getInstance().marketCloseVisible;
+            if (isTradeTime || (marketCloseVisible && !init)) {
                 // trigger repaint
                 pool.execute(() -> setText(getCodeText()));
                 init = true;
+            } else if (!marketCloseVisible) {
+                // 非工作时间隐藏组件
+                String text = getText();
+                if (text != null && !text.isEmpty()) {
+                    pool.execute(() -> setText(""));
+                    init = false;
+                }
             }
         }
 
@@ -308,6 +326,15 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     x += fm.stringWidth(changeInPercentage + suffix);
                 }
             }
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            String text = getText();
+            if (text == null || text.isEmpty()) {
+                return new Dimension(0, super.getPreferredSize().height);
+            }
+            return super.getPreferredSize();
         }
     }
 }
