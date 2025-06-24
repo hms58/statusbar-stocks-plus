@@ -54,7 +54,12 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.refreshInterval         = pluginSettingsComponent.getRefreshInterval();
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
-        settings.coloredFont = pluginSettingsComponent.getColoredFont();
+        if (settings.changePercentageVisible){
+            settings.coloredFont = pluginSettingsComponent.getColoredFont();
+        }
+        else{
+            settings.coloredFont = false;
+        }
         settings.pyMode = pluginSettingsComponent.getPyMode();
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
