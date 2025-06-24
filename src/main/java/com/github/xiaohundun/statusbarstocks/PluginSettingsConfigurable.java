@@ -38,6 +38,7 @@ public class PluginSettingsConfigurable implements Configurable {
                 || !pluginSettingsComponent.getPriceVisible() == settings.priceVisible
                 || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible
                 || !pluginSettingsComponent.getColoredFont() == settings.coloredFont
+                || !pluginSettingsComponent.getPyMode() == settings.pyMode
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
                 || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
@@ -54,6 +55,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
         settings.coloredFont = pluginSettingsComponent.getColoredFont();
+        settings.pyMode = pluginSettingsComponent.getPyMode();
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();

@@ -12,9 +12,12 @@ public class PluginSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField stockCode = new JBTextField();
     private final JBCheckBox nameVisible = new JBCheckBox("show name");
+    private final JBCheckBox pyMode = new JBCheckBox("show pinyin");
     private final JBCheckBox codeVisible = new JBCheckBox("show code");
+
     private final JBCheckBox priceVisible = new JBCheckBox("show price");
     private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
+
     private final JBCheckBox coloredFont = new JBCheckBox("colored font");
     private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
     private final JBCheckBox percentVisible = new JBCheckBox("show %");
@@ -28,6 +31,7 @@ public class PluginSettingsComponent {
         priceVisible.setSelected(AppSettingsState.getInstance().priceVisible);
         changePercentageVisible.setSelected(AppSettingsState.getInstance().changePercentageVisible);
         coloredFont.setSelected(AppSettingsState.getInstance().coloredFont);
+        pyMode.setSelected(AppSettingsState.getInstance().pyMode);
         lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
         nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
         codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
@@ -41,6 +45,7 @@ public class PluginSettingsComponent {
                 .addComponent(priceVisible, 1)
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(coloredFont, 1)
+                .addComponent(pyMode, 1)
                 .addComponent(lowProfileMode, 1)
                 .addComponent(percentVisible, 1)
                 .addComponent(marketCloseVisible, 1)
@@ -73,6 +78,9 @@ public class PluginSettingsComponent {
     }
     public boolean getColoredFont() {
         return coloredFont.isSelected();
+    }
+    public boolean getPyMode() {
+        return pyMode.isSelected();
     }
 
     public boolean getNameVisible() {
