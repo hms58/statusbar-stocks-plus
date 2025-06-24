@@ -299,9 +299,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         g2.setColor(foreground);
                     } else {
                         int compareTo =((BigDecimal) zx).compareTo(((BigDecimal) zs));
-                        if (compareTo > 0) {
+                        if (compareTo > 0 && appSettingsState.coloredFont) {
                             g2.setColor(JBColor.RED);
-                        } else if (compareTo < 0){
+                        } else if (compareTo < 0 && appSettingsState.coloredFont){
                             g2.setColor(JBColor.GREEN);
                         } else {
                             g2.setColor(foreground);
@@ -315,9 +315,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         changeInPercentage = "0.0";
                     }
                     int compareTo = BigDecimal.valueOf(Double.parseDouble(((String) changeInPercentage))).compareTo(BigDecimal.ZERO);
-                    if (compareTo > 0) {
+                    if (compareTo > 0 && appSettingsState.coloredFont) {
                         g2.setColor(JBColor.RED);
-                    } else if (compareTo < 0) {
+                    } else if (compareTo < 0 && appSettingsState.coloredFont) {
                         g2.setColor(JBColor.GREEN);
                     } else {
                         g2.setColor(foreground);

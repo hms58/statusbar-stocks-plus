@@ -37,6 +37,7 @@ public class PluginSettingsConfigurable implements Configurable {
         return !pluginSettingsComponent.getStockCode().equals(settings.stockCode)
                 || !pluginSettingsComponent.getPriceVisible() == settings.priceVisible
                 || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible
+                || !pluginSettingsComponent.getColoredFont() == settings.coloredFont
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
                 || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
@@ -52,6 +53,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.refreshInterval         = pluginSettingsComponent.getRefreshInterval();
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
+        settings.coloredFont = pluginSettingsComponent.getColoredFont();
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();

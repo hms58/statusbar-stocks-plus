@@ -20,6 +20,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
 
     public String stockCode = "sh000001";
     public boolean changePercentageVisible = true;
+    public boolean coloredFont = true;
     public boolean priceVisible = true;
     public boolean lowProfileMode = false;
     public boolean nameVisible = true;
