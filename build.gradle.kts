@@ -26,6 +26,7 @@ dependencies {
 //    implementation(libs.annotations)
     implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0")
     implementation(group = "org.json", name = "json", version = "20240303")
+    implementation(group = "com.belerweb", name = "pinyin4j", version = "2.5.1")
 }
 
 // Set the JVM language level used to build the project.
