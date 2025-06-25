@@ -4,13 +4,19 @@
 
 ## [Unreleased]
 
+## [2.0.4] - 2025-06-25
+
+升级相关依赖
+
 ## [1.1.0] - 2025-04-28
+
 - add hk us stock
 - add tencent api
 
 ## [1.0.4] - 2024-05-30
 
 ### Added
+
 - low profile mode
 
 ## [1.0.3] - 2024-05-15
@@ -43,7 +49,10 @@
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/xiaohundun/statusbar-stocks/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/hms58/statusbar-stocks-plus/compare/v2.0.4...HEAD
+[2.0.4]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.1.0...v2.0.4
+[1.1.0]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.0.4...v1.1.0
+[1.0.4]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/xiaohundun/statusbar-stocks/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/xiaohundun/statusbar-stocks/compare/v1.0.0...v1.0.2
 [1.0.1]: https://github.com/xiaohundun/statusbar-stocks/compare/v1.0.0...v1.0.1
