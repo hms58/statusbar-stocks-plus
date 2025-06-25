@@ -13,6 +13,7 @@ public class PluginSettingsComponent {
     private final JBTextField stockCode = new JBTextField();
     private final JBCheckBox nameVisible = new JBCheckBox("show name");
     private final JBCheckBox codeVisible = new JBCheckBox("show code");
+    private final JBCheckBox pinyinVisible = new JBCheckBox("show pinyin");
     private final JBCheckBox priceVisible = new JBCheckBox("show price");
     private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
     private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
@@ -29,6 +30,7 @@ public class PluginSettingsComponent {
         lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
         nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
         codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
+        pinyinVisible.setSelected(AppSettingsState.getInstance().pinyinVisible);
         percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
         marketCloseVisible.setSelected(AppSettingsState.getInstance().marketCloseVisible);
         myMainPanel = FormBuilder.createFormBuilder()
@@ -36,6 +38,7 @@ public class PluginSettingsComponent {
                 .addLabeledComponent(new JBLabel("Refresh interval(seconds): "), refreshInterval, 1, false)
                 .addComponent(nameVisible, 1)
                 .addComponent(codeVisible, 1)
+                .addComponent(pinyinVisible, 1)
                 .addComponent(priceVisible, 1)
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
@@ -71,6 +74,10 @@ public class PluginSettingsComponent {
 
     public boolean getNameVisible() {
         return nameVisible.isSelected();
+    }
+
+    public boolean getPinyinVisible() {
+        return pinyinVisible.isSelected();
     }
 
     public boolean getCodeVisible() {

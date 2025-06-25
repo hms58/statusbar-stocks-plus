@@ -27,6 +27,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public boolean percentVisible = true; // 显示百分比符号
     public int  refreshInterval = 5; // 刷新间隔，单位秒
     public boolean marketCloseVisible = true; // 市场闭市是否可见
+    public boolean pinyinVisible = false; // 展示股票名拼音首字母
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

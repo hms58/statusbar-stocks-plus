@@ -1,8 +1,6 @@
 package com.github.xiaohundun.statusbarstocks.widgets;
 
-import com.github.xiaohundun.statusbarstocks.AppSettingsState;
-import com.github.xiaohundun.statusbarstocks.EastmoneyService;
-import com.github.xiaohundun.statusbarstocks.TencentService;
+import com.github.xiaohundun.statusbarstocks.*;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
@@ -150,10 +148,13 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             boolean  priceVisible = AppSettingsState.getInstance().priceVisible;
             boolean  nameVisible = AppSettingsState.getInstance().nameVisible;
             boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
+            boolean  pinyinVisible = AppSettingsState.getInstance().pinyinVisible;
             boolean  percentVisible = AppSettingsState.getInstance().percentVisible;
             String[] codeList     = code.replaceAll("，", ",").split(",");
             String   text         = "";
-
+            String[] removeSuffixes = {
+                    "-W", "ETF",
+            };
             // 使用腾讯接口
             boolean useTencent = true;
             if (useTencent) {
@@ -178,6 +179,10 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                             } else {
                                 prefix = String.format("%s: ", retCode);
                             }
+                        } else if (pinyinVisible) {
+                            String pinyin = PinyinUtils.toFirstCharUpperCase(name);
+                            pinyin = StringUtils.removeFirstSuffix(pinyin, removeSuffixes);
+                            prefix = String.format("%s: ", pinyin);
                         }
                         text += prefix;
 
@@ -226,6 +231,10 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     } else {
                         prefix = String.format("%s: ", retCode);
                     }
+                } else if (pinyinVisible) {
+                    String pinyin = PinyinUtils.toFirstCharUpperCase(name);
+                    pinyin = StringUtils.removeFirstSuffix(pinyin, removeSuffixes);
+                    prefix = String.format("%s: ", pinyin);
                 }
                 text += prefix;
 
