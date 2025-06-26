@@ -64,6 +64,10 @@ tasks {
         gradleVersion = properties("gradleVersion").get()
     }
 
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
     patchPluginXml {
         version = properties("pluginVersion")
         sinceBuild = properties("pluginSinceBuild")
