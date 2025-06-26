@@ -74,7 +74,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
         private boolean showingStock = true;
-        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnalyze;
+        private final Icon stockIcon = AllIcons.General.Home;
 
         public StockWidget() {
             new UiNotifyConnector(this, this);
