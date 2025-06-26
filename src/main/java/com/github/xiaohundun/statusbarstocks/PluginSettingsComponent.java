@@ -11,17 +11,17 @@ import javax.swing.*;
 public class PluginSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField stockCode = new JBTextField();
-    private final JBCheckBox nameVisible = new JBCheckBox("show name");
-    private final JBCheckBox codeVisible = new JBCheckBox("show code");
-    private final JBCheckBox pinyinVisible = new JBCheckBox("show pinyin");
-    private final JBCheckBox priceVisible = new JBCheckBox("show price");
-    private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
-    private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
-    private final JBCheckBox percentVisible = new JBCheckBox("show %");
+    private final JBCheckBox nameVisible = new JBCheckBox("显示名字");
+    private final JBCheckBox codeVisible = new JBCheckBox("显示代码后3位");
+    private final JBCheckBox pinyinVisible = new JBCheckBox("显示拼音首字母");
+    private final JBCheckBox priceVisible = new JBCheckBox("显示价格");
+    private final JBCheckBox changePercentageVisible = new JBCheckBox("显示涨跌幅");
+    private final JBCheckBox lowProfileMode = new JBCheckBox("低调模式");
+    private final JBCheckBox percentVisible = new JBCheckBox("显示 %");
     //    private final JBTextField refreshInterval = new JBTextField();
-    private final JBIntSpinner refreshInterval = new JBIntSpinner(5, 1, 3600);
-    private final JBCheckBox marketCloseVisible = new JBCheckBox("market close visible");
-
+    private final JBIntSpinner refreshInterval = new JBIntSpinner(1, 1, 3600);
+    private final JBCheckBox marketCloseVisible = new JBCheckBox("闭市可见");
+    
     public PluginSettingsComponent() {
         stockCode.setText(AppSettingsState.getInstance().stockCode);
         refreshInterval.setNumber(AppSettingsState.getInstance().refreshInterval);
@@ -34,8 +34,8 @@ public class PluginSettingsComponent {
         percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
         marketCloseVisible.setSelected(AppSettingsState.getInstance().marketCloseVisible);
         myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
-                .addLabeledComponent(new JBLabel("Refresh interval(seconds): "), refreshInterval, 1, false)
+                .addLabeledComponent(new JBLabel("股票列表(用,分隔): "), stockCode, 1, false)
+                .addLabeledComponent(new JBLabel("刷新间隔(秒): "), refreshInterval, 1, false)
                 .addComponent(nameVisible, 1)
                 .addComponent(codeVisible, 1)
                 .addComponent(pinyinVisible, 1)
