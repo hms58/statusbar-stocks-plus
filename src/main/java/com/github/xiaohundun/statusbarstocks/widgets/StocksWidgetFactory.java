@@ -172,7 +172,6 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         }
                         String prefix = "";
                         String name   = jsonObject.getString("name");
-                        String namePy = getFirstLetters(name);
                         String retCode   = jsonObject.getString("code");
                         String percent   = jsonObject.getString("percent");
                         String price     = jsonObject.getString("price");
@@ -187,13 +186,11 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                             } else {
                                 prefix = String.format("%s: ", retCode);
                             }
-                        } else if (pinyinVisible) {
+                        }
+                        if (pinyinVisible) {
                             String pinyin = PinyinUtils.toFirstCharUpperCase(name);
                             pinyin = StringUtils.removeFirstSuffix(pinyin, removeSuffixes);
                             prefix = String.format("%s: ", pinyin);
-                        }
-                        if (AppSettingsState.getInstance().pyMode) {
-                            prefix = String.format("%s: ", namePy);
                         }
                         text += prefix;
 
@@ -319,9 +316,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         g2.setColor(foreground);
                     } else {
                         int compareTo =((BigDecimal) zx).compareTo(((BigDecimal) zs));
-                        if (compareTo > 0 && appSettingsState.coloredFont) {
+                        if (compareTo > 0  ) {
                             g2.setColor(JBColor.RED);
-                        } else if (compareTo < 0 && appSettingsState.coloredFont){
+                        } else if (compareTo < 0  ){
                             g2.setColor(JBColor.GREEN);
                         } else {
                             g2.setColor(foreground);
@@ -335,9 +332,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         changeInPercentage = "0.0";
                     }
                     int compareTo = BigDecimal.valueOf(Double.parseDouble(((String) changeInPercentage))).compareTo(BigDecimal.ZERO);
-                    if (compareTo > 0 && appSettingsState.coloredFont) {
+                    if (compareTo > 0  ) {
                         g2.setColor(JBColor.RED);
-                    } else if (compareTo < 0 && appSettingsState.coloredFont) {
+                    } else if (compareTo < 0  ) {
                         g2.setColor(JBColor.GREEN);
                     } else {
                         g2.setColor(foreground);
@@ -355,57 +352,6 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 return new Dimension(0, super.getPreferredSize().height);
             }
             return super.getPreferredSize();
-        }
-        /**
-         * 获取字符串中每个汉字的拼音首字母组成的字符串
-         * 例如："上证指数" -> "SZZS"
-         */
-        public   String getFirstLetters(String input) {
-            if (input == null || input.isEmpty()) {
-                return "";
-            }
-
-            StringBuilder result = new StringBuilder();
-            HanyuPinyinOutputFormat format = createPinyinFormat();
-
-            for (char c : input.toCharArray()) {
-                // 判断是否为中文字符
-                if (isChineseCharacter(c)) {
-                    try {
-                        // 获取拼音数组（可能有多个读音，取第一个）
-                        String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(c, format);
-                        if (pinyinArray != null && pinyinArray.length > 0) {
-                            result.append(pinyinArray[0].charAt(0)); // 取拼音首字母
-                        }
-                    } catch (BadHanyuPinyinOutputFormatCombination e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    // 非中文字符直接添加
-                    result.append(Character.toUpperCase(c));
-                }
-            }
-
-            return result.toString();
-        }
-
-        /**
-         * 创建拼音输出格式配置
-         */
-        private   HanyuPinyinOutputFormat createPinyinFormat() {
-            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-            format.setCaseType(HanyuPinyinCaseType.UPPERCASE); // 大写
-            format.setToneType(HanyuPinyinToneType.WITHOUT_TONE); // 无音调
-            format.setVCharType(HanyuPinyinVCharType.WITH_V); // ü用v表示
-            return format;
-        }
-
-        /**
-         * 判断字符是否为中文字符
-         */
-        private   boolean isChineseCharacter(char c) {
-            // 中文字符范围：0x4E00 - 0x9FA5
-            return c >= 0x4E00 && c <= 0x9FA5;
         }
     }
 }

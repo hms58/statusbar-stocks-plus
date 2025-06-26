@@ -18,19 +18,26 @@ import org.jetbrains.annotations.NotNull;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public String stockCode = "sh000001,sz300769,sz300409";
+    public String stockCode = "sh000001,sz399006,hkHSI";
     public boolean nameVisible = false;
     public boolean codeVisible = false;
-    public boolean pyMode = true;
+    public boolean pinyinVisible = true; // 展示股票名拼音首字母
 
     public boolean changePercentageVisible = true;
-    public boolean coloredFont = false;
-    public boolean priceVisible = true;
-    public boolean lowProfileMode = false;
-    public boolean percentVisible = true; // 显示百分比符号
-    public int  refreshInterval = 2; // 刷新间隔，单位秒
-    public boolean marketCloseVisible = true; // 市场闭市是否可见
-    public boolean pinyinVisible = false; // 展示股票名拼音首字母
+    public boolean priceVisible = false;
+    /**
+     * 是否用无色字体
+     */
+    public boolean lowProfileMode = true;
+    /**
+     * 显示百分比符号
+     */
+    public boolean percentVisible = false;
+    public int  refreshInterval = 5; // 刷新间隔，单位秒
+    /**
+     * 市场闭市是否可见
+     */
+    public boolean marketCloseVisible = false;
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

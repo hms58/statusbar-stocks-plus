@@ -37,8 +37,6 @@ public class PluginSettingsConfigurable implements Configurable {
         return !pluginSettingsComponent.getStockCode().equals(settings.stockCode)
                 || !pluginSettingsComponent.getPriceVisible() == settings.priceVisible
                 || !pluginSettingsComponent.getChangePercentageVisible() == settings.changePercentageVisible
-                || !pluginSettingsComponent.getColoredFont() == settings.coloredFont
-                || !pluginSettingsComponent.getPyMode() == settings.pyMode
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
                 || !pluginSettingsComponent.getPinyinVisible() == settings.pinyinVisible
@@ -55,13 +53,6 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.refreshInterval         = pluginSettingsComponent.getRefreshInterval();
         settings.priceVisible            = pluginSettingsComponent.getPriceVisible();
         settings.changePercentageVisible = pluginSettingsComponent.getChangePercentageVisible();
-        if (settings.changePercentageVisible){
-            settings.coloredFont = pluginSettingsComponent.getColoredFont();
-        }
-        else{
-            settings.coloredFont = false;
-        }
-        settings.pyMode = pluginSettingsComponent.getPyMode();
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();
