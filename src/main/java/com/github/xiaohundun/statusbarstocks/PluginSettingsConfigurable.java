@@ -41,6 +41,7 @@ public class PluginSettingsConfigurable implements Configurable {
                 || !pluginSettingsComponent.getPyMode() == settings.pyMode
                 || !pluginSettingsComponent.getNameVisible() == settings.nameVisible
                 || !pluginSettingsComponent.getCodeVisible() == settings.codeVisible
+                || !pluginSettingsComponent.getPinyinVisible() == settings.pinyinVisible
                 || !pluginSettingsComponent.getPercentVisible() == settings.percentVisible
                 || !(pluginSettingsComponent.getRefreshInterval() == settings.refreshInterval)
                 || !pluginSettingsComponent.getMarketCloseVisible() == settings.marketCloseVisible
@@ -64,6 +65,7 @@ public class PluginSettingsConfigurable implements Configurable {
         settings.lowProfileMode          = pluginSettingsComponent.getLowProfileMode();
         settings.nameVisible             = pluginSettingsComponent.getNameVisible();
         settings.codeVisible             = pluginSettingsComponent.getCodeVisible();
+        settings.pinyinVisible           = pluginSettingsComponent.getPinyinVisible();
         settings.percentVisible          = pluginSettingsComponent.getPercentVisible();
         settings.marketCloseVisible      = pluginSettingsComponent.getMarketCloseVisible();
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {

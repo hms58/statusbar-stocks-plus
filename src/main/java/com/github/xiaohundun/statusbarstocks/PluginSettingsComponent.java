@@ -7,87 +7,40 @@ import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ItemListener;
-import java.io.Console;
 
 public class PluginSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField stockCode = new JBTextField();
-    private final JBCheckBox nameVisible = new JBCheckBox("名称");
-    private final JBCheckBox pyMode = new JBCheckBox("拼音");
-    private final JBCheckBox codeVisible = new JBCheckBox("代码");
-
-    private final JBCheckBox priceVisible = new JBCheckBox("显示价格");
-    private final JBCheckBox changePercentageVisible = new JBCheckBox("显示幅度");
-    private final JBCheckBox coloredFont = new JBCheckBox("彩色显示");
+    private final JBCheckBox nameVisible = new JBCheckBox("show name");
+    private final JBCheckBox codeVisible = new JBCheckBox("show code");
+    private final JBCheckBox pinyinVisible = new JBCheckBox("show pinyin");
+    private final JBCheckBox priceVisible = new JBCheckBox("show price");
+    private final JBCheckBox changePercentageVisible = new JBCheckBox("show change");
     private final JBCheckBox lowProfileMode = new JBCheckBox("low mode");
-    private final JBCheckBox percentVisible = new JBCheckBox("带上%");
-    private final JBIntSpinner refreshInterval = new JBIntSpinner(2, 1, 3600);
-    private final JBCheckBox marketCloseVisible = new JBCheckBox("休市显示");
+    private final JBCheckBox percentVisible = new JBCheckBox("show %");
+    //    private final JBTextField refreshInterval = new JBTextField();
+    private final JBIntSpinner refreshInterval = new JBIntSpinner(5, 1, 3600);
+    private final JBCheckBox marketCloseVisible = new JBCheckBox("market close visible");
 
     public PluginSettingsComponent() {
-        AppSettingsState settings = AppSettingsState.getInstance();
-        stockCode.setText(settings.stockCode);
-        refreshInterval.setNumber(settings.refreshInterval);
-        priceVisible.setSelected(settings.priceVisible);
-        changePercentageVisible.setSelected(settings.changePercentageVisible);
-        coloredFont.setSelected(settings.coloredFont);
-        pyMode.setSelected(settings.pyMode);
-        lowProfileMode.setSelected(settings.lowProfileMode);
-        nameVisible.setSelected(settings.nameVisible);
-        codeVisible.setSelected(settings.codeVisible);
-        percentVisible.setSelected(settings.percentVisible);
-        marketCloseVisible.setSelected(settings.marketCloseVisible);
-
-        // 创建互斥组面板
-        JPanel exclusiveGroupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        exclusiveGroupPanel.add(pyMode);
-        exclusiveGroupPanel.add(nameVisible);
-        exclusiveGroupPanel.add(codeVisible);
-
-        // 添加互斥逻辑
-        ItemListener exclusiveListener = e -> {
-            JBCheckBox source = (JBCheckBox) e.getSource();
-            if (source.isSelected()) {
-                // 取消其他两个复选框的选择
-                if (source == nameVisible) {
-                    pyMode.setSelected(false);
-                    codeVisible.setSelected(false);
-                } else if (source == pyMode) {
-                    nameVisible.setSelected(false);
-                    codeVisible.setSelected(false);
-                } else if (source == codeVisible) {
-                    nameVisible.setSelected(false);
-                    pyMode.setSelected(false);
-                }
-            }
-        };
-
-        nameVisible.addItemListener(exclusiveListener);
-        pyMode.addItemListener(exclusiveListener);
-        codeVisible.addItemListener(exclusiveListener);
-
-        // 创建"显示幅度"和"彩色显示"的面板
-        JPanel amplitudeColorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        amplitudeColorPanel.add(changePercentageVisible);
-        amplitudeColorPanel.add(coloredFont);
-
-        // 设置彩色显示的初始可见性
-        coloredFont.setVisible(changePercentageVisible.isSelected());
-
-        // 添加事件监听器，当"显示幅度"状态改变时，控制"彩色显示"的可见性
-        changePercentageVisible.addItemListener(e -> {
-            coloredFont.setVisible(changePercentageVisible.isSelected());
-        });
-
-        // 构建主面板
+        stockCode.setText(AppSettingsState.getInstance().stockCode);
+        refreshInterval.setNumber(AppSettingsState.getInstance().refreshInterval);
+        priceVisible.setSelected(AppSettingsState.getInstance().priceVisible);
+        changePercentageVisible.setSelected(AppSettingsState.getInstance().changePercentageVisible);
+        lowProfileMode.setSelected(AppSettingsState.getInstance().lowProfileMode);
+        nameVisible.setSelected(AppSettingsState.getInstance().nameVisible);
+        codeVisible.setSelected(AppSettingsState.getInstance().codeVisible);
+        pinyinVisible.setSelected(AppSettingsState.getInstance().pinyinVisible);
+        percentVisible.setSelected(AppSettingsState.getInstance().percentVisible);
+        marketCloseVisible.setSelected(AppSettingsState.getInstance().marketCloseVisible);
         myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("代码列表(, 分割): "), stockCode, 1, false)
-                .addLabeledComponent(new JBLabel("刷新间隔(s): "), refreshInterval, 1, false)
-                .addLabeledComponent(new JBLabel("显示模式:"), exclusiveGroupPanel, 1, false)
+                .addLabeledComponent(new JBLabel("Stock code(comma-separated): "), stockCode, 1, false)
+                .addLabeledComponent(new JBLabel("Refresh interval(seconds): "), refreshInterval, 1, false)
+                .addComponent(nameVisible, 1)
+                .addComponent(codeVisible, 1)
+                .addComponent(pinyinVisible, 1)
                 .addComponent(priceVisible, 1)
-                .addComponent(amplitudeColorPanel, 1) // 将两个控件放在同一行
+                .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
                 .addComponent(percentVisible, 1)
                 .addComponent(marketCloseVisible, 1)
@@ -118,15 +71,13 @@ public class PluginSettingsComponent {
     public boolean getChangePercentageVisible() {
         return changePercentageVisible.isSelected();
     }
-    public boolean getColoredFont() {
-        return coloredFont.isSelected();
-    }
-    public boolean getPyMode() {
-        return pyMode.isSelected();
-    }
 
     public boolean getNameVisible() {
         return nameVisible.isSelected();
+    }
+
+    public boolean getPinyinVisible() {
+        return pinyinVisible.isSelected();
     }
 
     public boolean getCodeVisible() {
