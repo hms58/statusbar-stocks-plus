@@ -1,6 +1,7 @@
 package com.github.xiaohundun.statusbarstocks;
 
 import com.intellij.ui.JBIntSpinner;
+import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
@@ -39,6 +40,7 @@ public class PluginSettingsComponent {
                 .addComponent(nameVisible, 1)
                 .addComponent(codeVisible, 1)
                 .addComponent(pinyinVisible, 1)
+                .addComponent(createSeparator(), 1)
                 .addComponent(priceVisible, 1)
                 .addComponent(changePercentageVisible, 1)
                 .addComponent(lowProfileMode, 1)
@@ -46,6 +48,17 @@ public class PluginSettingsComponent {
                 .addComponent(marketCloseVisible, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
+    }
+
+    /**
+     * 创建标准分割线
+     */
+    private JBSplitter createSeparator() {
+        JBSplitter splitter = new JBSplitter(false);
+        splitter.setFirstComponent(new JPanel());
+        splitter.setSecondComponent(new JPanel());
+        splitter.setHonorComponentsMinimumSize(true);
+        return splitter;
     }
 
     public JPanel getPanel() {
