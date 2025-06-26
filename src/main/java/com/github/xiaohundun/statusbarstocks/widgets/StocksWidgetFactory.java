@@ -2,6 +2,7 @@ package com.github.xiaohundun.statusbarstocks.widgets;
 
 import com.github.xiaohundun.statusbarstocks.*;
 import com.intellij.ide.ui.UISettings;
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.NlsContexts;
@@ -72,11 +73,20 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
+        private boolean showingStock = true;
+        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnalyze;
 
         public StockWidget() {
             new UiNotifyConnector(this, this);
+            this.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    showingStock = !showingStock;
+                    repaint();
+                }
+            });
         }
-
+        
         @Override
         public void showNotify() {
             long refreshInterval = AppSettingsState.getInstance().refreshInterval;
@@ -265,6 +275,14 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         protected void paintComponent(Graphics g) {
             AppSettingsState appSettingsState = AppSettingsState.getInstance();
 
+            if (!showingStock) {
+                // 只画图标在中间
+                int x = (getWidth() - stockIcon.getIconWidth()) / 2;
+                int y = (getHeight() - stockIcon.getIconHeight()) / 2;
+                stockIcon.paintIcon(this, g, x, y);
+                return;
+            }
+            
             if (appSettingsState.lowProfileMode) {
                 super.paintComponent(g);
                 return;
@@ -339,6 +357,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         @Override
         public Dimension getPreferredSize() {
+            if (!showingStock) {
+                return new Dimension(stockIcon.getIconWidth() + 4, stockIcon.getIconHeight() + 4);
+            }
             String text = getText();
             if (text == null || text.isEmpty()) {
                 return new Dimension(0, super.getPreferredSize().height);
