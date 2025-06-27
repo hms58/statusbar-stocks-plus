@@ -77,6 +77,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         private boolean showingStock;
 //        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnt;// AllIcons.Plugins.Disabled / AllIcons.Toolwindows.ToolWindowAnalyzeDataflow
         private final Icon stockIcon = IconLoader.getIcon("/icons/toggle.png", getClass());
+        private String lastCodeText = "";
+        private List<Object[]> lastCodeDetailList = new ArrayList<>();
 
         public StockWidget() {
             new UiNotifyConnector(this, this);
@@ -151,7 +153,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 // 隐藏时不刷新股票信息
                 return;
             }
-            
+
             LocalTime now   = LocalTime.now();
             DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 
@@ -187,6 +189,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
             boolean  pinyinVisible = AppSettingsState.getInstance().pinyinVisible;
             boolean  percentVisible = AppSettingsState.getInstance().percentVisible;
+            // 替换全角逗号为英文逗号，并去除多余空格
             String[] codeList     = code.replaceAll("，", ",").split(",");
             String   text         = "";
             String[] removeSuffixes = {
@@ -194,9 +197,14 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             };
             // 使用腾讯接口
             boolean useTencent = true;
+            boolean fetchSuccess = false;
+
+            if (codeList.length == 0) {
+                return "";
+            }
             if (useTencent) {
                 List<JSONObject> list =  TencentService.getDetail(codeList);
-                if (list != null) {
+                if (list != null && !list.isEmpty()) {
                     for (JSONObject jsonObject : list) {
                         if (jsonObject == null) {
                             continue;
@@ -242,6 +250,17 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         valueArray[3] = new BigDecimal(yesterday); // 昨天收盘价
                         codeDetailList.add(valueArray);
                     }
+
+                    // 成功获取，更新缓存
+                    lastCodeText = text;
+                    lastCodeDetailList = new ArrayList<>(codeDetailList);
+                    fetchSuccess = true;
+                }
+                if (!fetchSuccess) {
+                    // 获取失败，返回上次缓存
+                    codeDetailList.clear();
+                    codeDetailList.addAll(lastCodeDetailList);
+                    return lastCodeText;
                 }
                 return text;
             }
@@ -293,9 +312,19 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 valueArray[2] = f43;
                 valueArray[3] = f60;
                 codeDetailList.add(valueArray);
+
+                fetchSuccess = true;
             }
 
-            return text;
+            if (fetchSuccess) {
+                lastCodeText = text;
+                lastCodeDetailList = new ArrayList<>(codeDetailList);
+                return text;
+            } else {
+                codeDetailList.clear();
+                codeDetailList.addAll(lastCodeDetailList);
+                return lastCodeText;
+            }
         }
 
         @Override
