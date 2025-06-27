@@ -85,6 +85,10 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             this.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
+                    // 只响应左键单击
+                    if (e.getButton() != java.awt.event.MouseEvent.BUTTON1) {
+                        return;
+                    }
                     showingStock = !showingStock;
                     // 保存设置
                     AppSettingsState.getInstance().showingStock = showingStock;
