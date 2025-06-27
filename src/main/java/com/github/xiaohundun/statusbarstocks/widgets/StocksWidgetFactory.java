@@ -76,7 +76,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         private java.util.concurrent.ScheduledFuture<?> myFuture;
         private boolean showingStock;
 //        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnt;// AllIcons.Plugins.Disabled / AllIcons.Toolwindows.ToolWindowAnalyzeDataflow
-        private final Icon stockIcon = IconLoader.getIcon("/icons/toggle.png", getClass());
+        private final Icon stockIconDefault = IconLoader.getIcon("/icons/toggle.png", getClass());
+        private final Icon stockIconLow = IconLoader.getIcon("/icons/toggle_low.svg", getClass());
         private String lastCodeText = "";
         private List<Object[]> lastCodeDetailList = new ArrayList<>();
 
@@ -110,7 +111,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 }
             });
         }
-        
+
         @Override
         public void showNotify() {
             long refreshInterval = AppSettingsState.getInstance().refreshInterval;
@@ -330,6 +331,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         @Override
         protected void paintComponent(Graphics g) {
             if (!showingStock) {
+                Icon stockIcon = getStockIcon();
                 // 只画图标在中间
                 int x = (getWidth() - stockIcon.getIconWidth()) / 2;
                 int y = (getHeight() - stockIcon.getIconHeight()) / 2;
@@ -414,6 +416,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         @Override
         public Dimension getPreferredSize() {
             if (!showingStock) {
+                Icon stockIcon = getStockIcon();
                 return new Dimension(stockIcon.getIconWidth() + 4, stockIcon.getIconHeight() + 4);
             }
             String text = getText();
@@ -421,6 +424,11 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 return new Dimension(0, super.getPreferredSize().height);
             }
             return super.getPreferredSize();
+        }
+
+        private Icon getStockIcon() {
+            // 根据 lowProfileMode 设置 stockIcon
+            return AppSettingsState.getInstance().lowProfileMode ? stockIconLow : stockIconDefault;
         }
     }
 }
