@@ -1,8 +1,14 @@
 # statusbar-stocks
 
-![Build](https://github.com/xiaohundun/statusbar-stocks/workflows/Build/badge.svg)
+![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+
+## 支持的特性
+- [x] 支持A股、港股和美股等股票行情展示
+- [x] 低调模式：涨跌幅背景色展示。默认：涨-红色，跌-绿色
+- [x] 只在交易时间9:00-16:30时间段显示股票行情
+- [x] 当左击股票行情状态栏时，影藏股票行情，只显示图标![image](https://github.com/user-attachments/assets/6103a519-24f6-4097-a997-8dda1a891fd2)（v2.2.0版本支持）
 
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
@@ -17,19 +23,19 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-Display stock information in the status bar, configure the list of stocks in Settings->Tools->Statusbar Stocks.
+Display stock information in the status bar, configure the list of stocks in Settings->Tools->Statusbar Stocks Plus.
 <!-- Plugin description end -->
 
 ## Installation
 
 - Using the IDE built-in plugin system:
   
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "statusbar-stocks"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "statusbar-stocks-plus"</kbd> >
   <kbd>Install</kbd>
   
 - Manually:
 
-  Download the [latest release](https://github.com/xiaohundun/statusbar-stocks/releases/latest) and install it manually using
+  Download the [latest release](https://github.com/hms58/statusbar-stocks-plus/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
