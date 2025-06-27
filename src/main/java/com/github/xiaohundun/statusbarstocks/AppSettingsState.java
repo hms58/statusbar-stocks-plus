@@ -28,6 +28,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public int  refreshInterval = 5; // 刷新间隔，单位秒
     public boolean marketCloseVisible = true; // 市场闭市是否可见
     public boolean pinyinVisible = false; // 展示股票名拼音首字母
+    public boolean showingStock = true; // 默认展示股票信息，而不是图标
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

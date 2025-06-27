@@ -2,8 +2,10 @@ package com.github.xiaohundun.statusbarstocks.widgets;
 
 import com.github.xiaohundun.statusbarstocks.*;
 import com.intellij.ide.ui.UISettings;
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBar;
@@ -72,11 +74,43 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
+        private boolean showingStock;
+//        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnt;// AllIcons.Plugins.Disabled / AllIcons.Toolwindows.ToolWindowAnalyzeDataflow
+        private final Icon stockIcon = IconLoader.getIcon("/icons/toggle.png", getClass());
+        private String lastCodeText = "";
+        private List<Object[]> lastCodeDetailList = new ArrayList<>();
 
         public StockWidget() {
             new UiNotifyConnector(this, this);
-        }
+            // 初始化显示状态
+            showingStock = AppSettingsState.getInstance().showingStock;
+            this.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    // 只响应左键单击
+                    if (e.getButton() != java.awt.event.MouseEvent.BUTTON1) {
+                        return;
+                    }
+                    showingStock = !showingStock;
+                    // 保存设置
+                    AppSettingsState.getInstance().showingStock = showingStock;
 
+                    revalidate();
+                    Container parent = getParent();
+                    if (parent != null) {
+                        parent.revalidate();
+                        parent.doLayout();
+                    }
+                    repaint();
+
+                    if (showingStock) {
+                        // 立即刷新股票信息
+                        updateState();
+                    }
+                }
+            });
+        }
+        
         @Override
         public void showNotify() {
             long refreshInterval = AppSettingsState.getInstance().refreshInterval;
@@ -115,6 +149,11 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         }
 
         public void updateState() {
+            if (!showingStock) {
+                // 隐藏时不刷新股票信息
+                return;
+            }
+
             LocalTime now   = LocalTime.now();
             DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 
@@ -150,6 +189,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
             boolean  pinyinVisible = AppSettingsState.getInstance().pinyinVisible;
             boolean  percentVisible = AppSettingsState.getInstance().percentVisible;
+            // 替换全角逗号为英文逗号，并去除多余空格
             String[] codeList     = code.replaceAll("，", ",").split(",");
             String   text         = "";
             String[] removeSuffixes = {
@@ -157,9 +197,14 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
             };
             // 使用腾讯接口
             boolean useTencent = true;
+            boolean fetchSuccess = false;
+
+            if (codeList.length == 0) {
+                return "";
+            }
             if (useTencent) {
                 List<JSONObject> list =  TencentService.getDetail(codeList);
-                if (list != null) {
+                if (list != null && !list.isEmpty()) {
                     for (JSONObject jsonObject : list) {
                         if (jsonObject == null) {
                             continue;
@@ -205,6 +250,17 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         valueArray[3] = new BigDecimal(yesterday); // 昨天收盘价
                         codeDetailList.add(valueArray);
                     }
+
+                    // 成功获取，更新缓存
+                    lastCodeText = text;
+                    lastCodeDetailList = new ArrayList<>(codeDetailList);
+                    fetchSuccess = true;
+                }
+                if (!fetchSuccess) {
+                    // 获取失败，返回上次缓存
+                    codeDetailList.clear();
+                    codeDetailList.addAll(lastCodeDetailList);
+                    return lastCodeText;
                 }
                 return text;
             }
@@ -256,13 +312,31 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 valueArray[2] = f43;
                 valueArray[3] = f60;
                 codeDetailList.add(valueArray);
+
+                fetchSuccess = true;
             }
 
-            return text;
+            if (fetchSuccess) {
+                lastCodeText = text;
+                lastCodeDetailList = new ArrayList<>(codeDetailList);
+                return text;
+            } else {
+                codeDetailList.clear();
+                codeDetailList.addAll(lastCodeDetailList);
+                return lastCodeText;
+            }
         }
 
         @Override
         protected void paintComponent(Graphics g) {
+            if (!showingStock) {
+                // 只画图标在中间
+                int x = (getWidth() - stockIcon.getIconWidth()) / 2;
+                int y = (getHeight() - stockIcon.getIconHeight()) / 2;
+                stockIcon.paintIcon(this, g, x, y);
+                return;
+            }
+
             AppSettingsState appSettingsState = AppSettingsState.getInstance();
 
             if (appSettingsState.lowProfileMode) {
@@ -339,6 +413,9 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
         @Override
         public Dimension getPreferredSize() {
+            if (!showingStock) {
+                return new Dimension(stockIcon.getIconWidth() + 4, stockIcon.getIconHeight() + 4);
+            }
             String text = getText();
             if (text == null || text.isEmpty()) {
                 return new Dimension(0, super.getPreferredSize().height);
