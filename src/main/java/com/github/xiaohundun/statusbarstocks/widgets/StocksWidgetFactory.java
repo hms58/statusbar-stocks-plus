@@ -100,6 +100,11 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         parent.doLayout();
                     }
                     repaint();
+
+                    if (showingStock) {
+                        // 立即刷新股票信息
+                        updateState();
+                    }
                 }
             });
         }
@@ -142,6 +147,11 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         }
 
         public void updateState() {
+            if (!showingStock) {
+                // 隐藏时不刷新股票信息
+                return;
+            }
+            
             LocalTime now   = LocalTime.now();
             DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 
