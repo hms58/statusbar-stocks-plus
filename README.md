@@ -1,8 +1,14 @@
 # statusbar-stocks
 
+[![GitHub latest commit](https://badgen.net/github/last-commit/hms58/statusbar-stocks-plus)](https://github.com/hms58/statusbar-stocks-plus/commit/)
 ![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/r/rating/27234-statusbar-stocks-plus)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus.svg)
+[![GitHub issues](https://img.shields.io/github/issues/hms58/statusbar-stocks-plus.svg)](https://github.com/hms58/statusbar-stocks-plus/issues/)
+[![GitHub forks](https://img.shields.io/github/forks/hms58/statusbar-stocks-plus.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/network/)
+[![GitHub stars](https://img.shields.io/github/stars/hms58/statusbar-stocks-plus.svg?style=social&label=Star&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/stargazers/)
+[![GitHub watchers](https://img.shields.io/github/watchers/hms58/statusbar-stocks-plus.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/watchers/)
 
 ## 支持的特性
 - [x] 支持A股、港股和美股等股票行情展示
@@ -23,16 +29,16 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-Display stock information in the status bar, configure the list of stocks in Settings->Tools->Statusbar Stocks Plus.
+Supports displaying real-time stock quotes in <b>the bottom status bar</b>. Supports <b>stocks</b> and <b>funds</b>. Stocks include <b>A-shares</b>, <b>Hong Kong stocks</b>, and <b>US stocks</b>.
 <!-- Plugin description end -->
 
 ## Installation
 
 - Using the IDE built-in plugin system:
-  
+
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "statusbar-stocks-plus"</kbd> >
   <kbd>Install</kbd>
-  
+
 - Manually:
 
   Download the [latest release](https://github.com/hms58/statusbar-stocks-plus/releases/latest) and install it manually using
@@ -44,3 +50,9 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/hms58/statusbar-stocks-plus.svg)](https://starchart.cc/hms58/statusbar-stocks-plus)
+
+## Github Stars Sparklines
+[![Sparkline](https://stars.medv.io/hms58/statusbar-stocks-plus.svg)](https://stars.medv.io/hms58/statusbar-stocks-plus)
