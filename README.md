@@ -28,7 +28,7 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-支持在底部状态栏展示股票实时行情. 支持<b>股票</b>和<b>基金</b>. 其中股票包括<b>A 股</b>, <b>港股</b>和 <b>美股</b>.
+支持在底部状态栏展示股票实时行情. 支持<b>股票</b>和<b>基金</b>. 其中股票包括<b>A 股</b>, <b>港股</b>和<b>美股</b>.
 <!-- Plugin description end -->
 
 ## Installation
@@ -50,8 +50,8 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
 
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/hms58/statusbar-stocks-plus.svg)](https://starchart.cc/hms58/statusbar-stocks-plus)
+
 ## Github Stars Sparklines
 [![Sparkline](https://stars.medv.io/hms58/statusbar-stocks-plus.svg)](https://stars.medv.io/hms58/statusbar-stocks-plus)
-
-## Contributors
-[![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=hms58/statusbar-stocks-plus)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=hms58/statusbar-stocks-plus)
