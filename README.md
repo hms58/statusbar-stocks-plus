@@ -3,6 +3,11 @@
 ![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/r/rating/27234-statusbar-stocks-plus)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus.svg)
+[![GitHub issues](https://img.shields.io/github/issues/hms58/statusbar-stocks-plus.svg)](https://github.com/hms58/statusbar-stocks-plus/issues/)
+[![GitHub forks](https://img.shields.io/github/forks/hms58/statusbar-stocks-plus.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/network/)
+[![GitHub stars](https://img.shields.io/github/stars/hms58/statusbar-stocks-plus.svg?style=social&label=Star&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/stargazers/)
+[![GitHub watchers](https://img.shields.io/github/watchers/hms58/statusbar-stocks-plus.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/hms58/statusbar-stocks-plus/watchers/)
 
 ## 支持的特性
 - [x] 支持A股、港股和美股等股票行情展示
