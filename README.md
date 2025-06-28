@@ -1,8 +1,8 @@
 # statusbar-stocks
 
 ![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![Version](https://img.shields.io/jetbrains/plugin/v/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
 
 ## 支持的特性
 - [x] 支持A股、港股和美股等股票行情展示
