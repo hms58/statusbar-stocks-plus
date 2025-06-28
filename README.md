@@ -1,5 +1,6 @@
 # statusbar-stocks
 
+[![GitHub latest commit](https://badgen.net/github/last-commit/hms58/statusbar-stocks-plus)](https://github.com/hms58/statusbar-stocks-plus/commit/)
 ![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/27234-statusbar-stocks-plus.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
