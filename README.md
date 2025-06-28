@@ -1,8 +1,8 @@
 # statusbar-stocks
 
 ![Build](https://github.com/hms58/statusbar-stocks-plus/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/27234-statusbar-stocks-plus)
 
 ## 支持的特性
 - [x] 支持A股、港股和美股等股票行情展示
@@ -23,7 +23,7 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-Display stock information in the status bar, configure the list of stocks in Settings->Tools->Statusbar Stocks Plus.
+支持在底部状态栏展示股票实时行情. 支持<b>股票</b>和<b>基金</b>. 其中股票包括<b>A 股</b>, <b>港股</b>和 <b>美股</b>.
 <!-- Plugin description end -->
 
 ## Installation
@@ -44,3 +44,9 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+## Github Stars Sparklines
+[![Sparkline](https://stars.medv.io/hms58/statusbar-stocks-plus.svg)](https://stars.medv.io/hms58/statusbar-stocks-plus)
+
+## Contributors
+[![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=hms58/statusbar-stocks-plus)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=hms58/statusbar-stocks-plus)
