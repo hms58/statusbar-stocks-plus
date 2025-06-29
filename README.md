@@ -28,10 +28,6 @@
 - [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
-<!-- Plugin description -->
-Supports displaying real-time stock quotes in <b>the bottom status bar</b>. Supports <b>stocks</b> and <b>funds</b>. Stocks include <b>A-shares</b>, <b>Hong Kong stocks</b>, and <b>US stocks</b>.
-<!-- Plugin description end -->
-
 ## Installation
 
 - Using the IDE built-in plugin system:
@@ -56,3 +52,15 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 ## Github Stars Sparklines
 [![Sparkline](https://stars.medv.io/hms58/statusbar-stocks-plus.svg)](https://stars.medv.io/hms58/statusbar-stocks-plus)
+
+## Plugin description
+<!-- Plugin description -->
+<div>
+    <p>
+      Supports displaying real-time stock quotes in <b>the bottom status bar</b>. 
+      Supports <b>stocks</b> and <b>funds</b>. Stocks include <b>A-shares</b>, <b>Hong Kong stocks</b>, and <b>US stocks</b>.
+    </p>
+    <h2>Donation</h2>
+    <p>If you like this plugin, you can <a href="https://ifdian.net/order/create?user_id=af5669aafee611ef988f5254001e7c00&remark=&affiliate_code=" target="_blank">buy me a cup of coffee</a>. Thank you!</p>
+</div>
+<!-- Plugin description end -->
