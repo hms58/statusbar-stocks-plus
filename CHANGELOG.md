@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2.2.1] - 2025-06-29
+
+低调模式和正常模式影藏图片不一样
+
 ## [2.2.0] - 2025-06-27
 
 支持左击股票状态栏影藏
@@ -49,7 +53,8 @@
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/hms58/statusbar-stocks-plus/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/hms58/statusbar-stocks-plus/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/hms58/statusbar-stocks-plus/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.1.0...v2.2.0
 [1.1.0]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.0.4...v1.1.0
 [1.0.4]: https://github.com/hms58/statusbar-stocks-plus/compare/v1.0.3...v1.0.4
