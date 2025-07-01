@@ -15,9 +15,9 @@
 
 <div>
     <p>
-      码农摸鱼神器，支持在<b>底部状态栏</b>实时展示股票行情。支持<b>股票</b>和<b>基金</b>，其中股票支持<b>A股</b>、<b>港股</b>和<b>美股</b>。<br>
       Supports displaying stock quotes in <b>the bottom status bar</b>.
-      Supports <b>stocks</b> and <b>funds</b>. Stocks include <b>A-shares</b>, <b>Hong Kong stocks</b>, and <b>US stocks</b>.
+      Supports <b>stocks</b> and <b>funds</b>. Stocks include <b>A-shares</b>, <b>Hong Kong stocks</b>, and <b>US stocks</b>.<br>
+      码农摸鱼神器，支持在<b>底部状态栏</b>实时展示股票行情。支持<b>股票</b>和<b>基金</b>，其中股票包括<b>A股</b>、<b>港股</b>和<b>美股</b>。
     </p>
     <h2>Features</h2>
     <ul>
