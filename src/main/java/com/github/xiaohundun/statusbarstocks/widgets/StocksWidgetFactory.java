@@ -3,6 +3,7 @@ package com.github.xiaohundun.statusbarstocks.widgets;
 import com.github.xiaohundun.statusbarstocks.*;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.icons.AllIcons;
+import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.IconLoader;
@@ -56,7 +57,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
 
     @Override
     public @NotNull StatusBarWidget createWidget(@NotNull Project project) {
-        return new StockWidget();
+        return new StockWidget(project);
     }
 
     @Override
@@ -69,25 +70,32 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         return true;
     }
 
-
     private static final class StockWidget extends TextPanel implements CustomStatusBarWidget, Activatable {
         private final ArrayList<Object[]> codeDetailList = new ArrayList<>();
         private boolean init = false;
         private java.util.concurrent.ScheduledFuture<?> myFuture;
         private boolean showingStock;
-//        private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnt;// AllIcons.Plugins.Disabled / AllIcons.Toolwindows.ToolWindowAnalyzeDataflow
+        // private final Icon stockIcon = AllIcons.Toolwindows.ToolWindowAnt;//
+        // AllIcons.Plugins.Disabled / AllIcons.Toolwindows.ToolWindowAnalyzeDataflow
         private final Icon stockIconDefault = IconLoader.getIcon("/icons/toggle.png", getClass());
         private final Icon stockIconLow = IconLoader.getIcon("/icons/toggle_low.svg", getClass());
         private String lastCodeText = "";
         private List<Object[]> lastCodeDetailList = new ArrayList<>();
 
-        public StockWidget() {
+        public StockWidget(Project project) {
             new UiNotifyConnector(this, this);
             // 初始化显示状态
             showingStock = AppSettingsState.getInstance().showingStock;
             this.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
+                    // 只响应右键
+                    if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+                        // 仅在只显示图标时响应（可选）
+                        handlePopup(e);
+                        return;
+                    }
+
                     // 只响应左键单击
                     if (e.getButton() != java.awt.event.MouseEvent.BUTTON1) {
                         return;
@@ -109,18 +117,35 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         updateState();
                     }
                 }
+
+                private void handlePopup(java.awt.event.MouseEvent e) {
+                    // 判断是否右键且当前为只显示图标
+                    if (/* e.isPopupTrigger() && */ !showingStock) {
+                        JPopupMenu menu = new JPopupMenu();
+                        JMenuItem configItem = new JMenuItem("打开设置");
+                        configItem.addActionListener(ev -> {
+                            ShowSettingsUtil.getInstance().showSettingsDialog(
+                                    project,
+                                    "Statusbar Stocks Plus" // 这里是你的Configurable显示名或类
+                            );
+                        });
+                        menu.add(configItem);
+                        menu.show(e.getComponent(), e.getX(), e.getY());
+                        // 阻止事件继续传递（父状态栏）
+                        e.consume();
+                    }
+                }
             });
         }
 
         @Override
         public void showNotify() {
             long refreshInterval = AppSettingsState.getInstance().refreshInterval;
-            if (refreshInterval <= 0){
+            if (refreshInterval <= 0) {
                 refreshInterval = 5;
             }
             myFuture = EdtExecutorService.getScheduledExecutorInstance().scheduleWithFixedDelay(
-                    this::updateState, refreshInterval, refreshInterval, TimeUnit.SECONDS
-            );
+                    this::updateState, refreshInterval, refreshInterval, TimeUnit.SECONDS);
         }
 
         @Override
@@ -155,13 +180,13 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 return;
             }
 
-            LocalTime now   = LocalTime.now();
+            LocalTime now = LocalTime.now();
             DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 
             // 判断是否为工作日（周一到周五）
             boolean isWeekday = dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
 
-            LocalTime nine  = LocalTime.of(9, 0);
+            LocalTime nine = LocalTime.of(9, 0);
             LocalTime three = LocalTime.of(16, 30);
             // 是否为交易时间
             boolean isTradeTime = isWeekday && now.isAfter(nine) && now.isBefore(three);
@@ -184,15 +209,15 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
         public String getCodeText() {
             codeDetailList.clear();
 
-            String   code         = AppSettingsState.getInstance().stockCode;
-            boolean  priceVisible = AppSettingsState.getInstance().priceVisible;
-            boolean  nameVisible = AppSettingsState.getInstance().nameVisible;
-            boolean  codeVisible = AppSettingsState.getInstance().codeVisible;
-            boolean  pinyinVisible = AppSettingsState.getInstance().pinyinVisible;
-            boolean  percentVisible = AppSettingsState.getInstance().percentVisible;
+            String code = AppSettingsState.getInstance().stockCode;
+            boolean priceVisible = AppSettingsState.getInstance().priceVisible;
+            boolean nameVisible = AppSettingsState.getInstance().nameVisible;
+            boolean codeVisible = AppSettingsState.getInstance().codeVisible;
+            boolean pinyinVisible = AppSettingsState.getInstance().pinyinVisible;
+            boolean percentVisible = AppSettingsState.getInstance().percentVisible;
             // 替换全角逗号为英文逗号，并去除多余空格
-            String[] codeList     = code.replaceAll("，", ",").split(",");
-            String   text         = "";
+            String[] codeList = code.replaceAll("，", ",").split(",");
+            String text = "";
             String[] removeSuffixes = {
                     "-W", "ETF",
             };
@@ -204,24 +229,24 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 return "";
             }
             if (useTencent) {
-                List<JSONObject> list =  TencentService.getDetail(codeList);
+                List<JSONObject> list = TencentService.getDetail(codeList);
                 if (list != null && !list.isEmpty()) {
                     for (JSONObject jsonObject : list) {
                         if (jsonObject == null) {
                             continue;
                         }
                         String prefix = "";
-                        String name   = jsonObject.getString("name");
-                        String retCode   = jsonObject.getString("code");
-                        String percent   = jsonObject.getString("percent");
-                        String price     = jsonObject.getString("price");
+                        String name = jsonObject.getString("name");
+                        String retCode = jsonObject.getString("code");
+                        String percent = jsonObject.getString("percent");
+                        String price = jsonObject.getString("price");
                         String yesterday = jsonObject.getString("yesterday");
 
                         if (nameVisible) {
                             prefix = String.format("%s: ", name);
                         } else if (codeVisible) {
-                            if (retCode.length()>3) {
-                                prefix = String.format("%s: ", retCode.substring(retCode.length()-3));
+                            if (retCode.length() > 3) {
+                                prefix = String.format("%s: ", retCode.substring(retCode.length() - 3));
                             } else {
                                 prefix = String.format("%s: ", retCode);
                             }
@@ -247,7 +272,7 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                         var valueArray = new Object[4];
                         valueArray[0] = prefix;
                         valueArray[1] = percent;
-                        valueArray[2] = new BigDecimal(price);  // 字符串需符合数值格式
+                        valueArray[2] = new BigDecimal(price); // 字符串需符合数值格式
                         valueArray[3] = new BigDecimal(yesterday); // 昨天收盘价
                         codeDetailList.add(valueArray);
                     }
@@ -271,20 +296,20 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     continue;
                 }
                 JSONObject data = jsonObject.getJSONObject("data");
-                String     name = data.getString("f58");
-                Object     f170 = data.get("f170");
-                BigDecimal f43  = data.getBigDecimal("f43"); // 当前最新价
-                BigDecimal f60  = data.getBigDecimal("f60"); // 昨天收盘价
-                String retCode  = data.getString("f57");
-                String   prefix = "";
+                String name = data.getString("f58");
+                Object f170 = data.get("f170");
+                BigDecimal f43 = data.getBigDecimal("f43"); // 当前最新价
+                BigDecimal f60 = data.getBigDecimal("f60"); // 昨天收盘价
+                String retCode = data.getString("f57");
+                String prefix = "";
                 if (f170 instanceof BigDecimal) {
                     f170 = f170.toString();
                 }
                 if (nameVisible) {
                     prefix = String.format("%s: ", name);
                 } else if (codeVisible) {
-                    if (retCode.length()>3) {
-                        prefix = String.format("%s: ", retCode.substring(retCode.length()-3));
+                    if (retCode.length() > 3) {
+                        prefix = String.format("%s: ", retCode.substring(retCode.length() - 3));
                     } else {
                         prefix = String.format("%s: ", retCode);
                     }
@@ -345,33 +370,35 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                 super.paintComponent(g);
                 return;
             }
-            @Nls String s           = getText();
-            int         panelWidth  = getWidth();
-            int         panelHeight = getHeight();
-            if (s == null) return;
+            @Nls
+            String s = getText();
+            int panelWidth = getWidth();
+            int panelHeight = getHeight();
+            if (s == null)
+                return;
 
             Graphics2D g2 = (Graphics2D) g;
             g2.setFont(getFont());
             UISettings.setupAntialiasing(g);
 
-            Rectangle   bounds = new Rectangle(panelWidth, panelHeight);
-            FontMetrics fm     = g.getFontMetrics();
-            int         x      = getInsets().left;
+            Rectangle bounds = new Rectangle(panelWidth, panelHeight);
+            FontMetrics fm = g.getFontMetrics();
+            int x = getInsets().left;
 
             int y = UIUtil.getStringY(s, bounds, g2);
 
             Color foreground;
             foreground = JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND;
-            var suffix             = " ";
+            var suffix = " ";
             if (appSettingsState.percentVisible) {
                 suffix = "% ";
             }
 
             for (Object[] values : codeDetailList) {
-                var prefix             = values[0].toString();
+                var prefix = values[0].toString();
                 var changeInPercentage = values[1];
-                var zx                 = values[2]; // 最新价格
-                var zs                 = values[3]; // 昨天收盘价
+                var zx = values[2]; // 最新价格
+                var zs = values[3]; // 昨天收盘价
 
                 g2.setColor(foreground);
                 g2.drawString(prefix, x, y);
@@ -383,10 +410,10 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     if (appSettingsState.changePercentageVisible) {
                         g2.setColor(foreground);
                     } else {
-                        int compareTo =((BigDecimal) zx).compareTo(((BigDecimal) zs));
+                        int compareTo = ((BigDecimal) zx).compareTo(((BigDecimal) zs));
                         if (compareTo > 0) {
                             g2.setColor(JBColor.RED);
-                        } else if (compareTo < 0){
+                        } else if (compareTo < 0) {
                             g2.setColor(JBColor.GREEN);
                         } else {
                             g2.setColor(foreground);
@@ -399,7 +426,8 @@ public class StocksWidgetFactory implements StatusBarWidgetFactory {
                     if (changeInPercentage.equals("-")) {
                         changeInPercentage = "0.0";
                     }
-                    int compareTo = BigDecimal.valueOf(Double.parseDouble(((String) changeInPercentage))).compareTo(BigDecimal.ZERO);
+                    int compareTo = BigDecimal.valueOf(Double.parseDouble(((String) changeInPercentage)))
+                            .compareTo(BigDecimal.ZERO);
                     if (compareTo > 0) {
                         g2.setColor(JBColor.RED);
                     } else if (compareTo < 0) {
