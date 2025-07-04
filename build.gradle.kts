@@ -24,7 +24,7 @@ repositories {
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
 //    implementation(libs.annotations)
-    implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0")
+    implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "5.0.0")
     implementation(group = "org.json", name = "json", version = "20250517")
     implementation(group = "com.belerweb", name = "pinyin4j", version = "2.5.1")
 }
